@@ -22,23 +22,7 @@
 
   ////////////////////////////////////////////////////
   // 01. Smooth Scroll Js
-  function smoothSctoll() {
-    $(".smooth a").on("click", function (event) {
-      var target = $(this.getAttribute("href"));
-      if (target.length) {
-        event.preventDefault();
-        $("html, body")
-          .stop()
-          .animate(
-            {
-              scrollTop: target.offset().top - 120,
-            },
-            1500,
-          );
-      }
-    });
-  }
-  smoothSctoll();
+  let smoother = null;
   if ($("#smooth-wrapper").length && $("#smooth-content").length) {
     gsap.registerPlugin(
       ScrollTrigger,
@@ -49,14 +33,38 @@
     gsap.config({
       nullTargetWarn: false,
     });
-    let smoother = ScrollSmoother.create({
-      smoothTouch: 0.2,
-      smooth: 4,
+    smoother = ScrollSmoother.create({
+      smoothTouch: 0.1,
+      smooth: 0.8,
       effects: true,
       normalizeScroll: false,
       ignoreMobileResize: true,
     });
   }
+
+  function smoothScrollHandler() {
+    $(document).on("click", 'a[href^="#"]', function (event) {
+      var hash = this.getAttribute("href");
+      if (!hash || hash === "#" || hash.length <= 1) return;
+      var target = $(hash);
+      if (target.length) {
+        event.preventDefault();
+        var headerHeight = $(".header").outerHeight() || 80;
+        var offsetTop = target.offset().top - headerHeight - 10;
+        if (smoother) {
+          smoother.scrollTo(target[0], true, "top " + (headerHeight + 10) + "px");
+        } else {
+          $("html, body").stop().animate({
+            scrollTop: offsetTop,
+          }, 500);
+        }
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, null, hash);
+        }
+      }
+    });
+  }
+  smoothScrollHandler();
 
   ////////////////////////////////////////////////////
   // 02. Char SplitText Js

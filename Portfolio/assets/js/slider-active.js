@@ -111,33 +111,37 @@
 
   ////////////////////////////////////////////////////
   // 06. Testimonial Three Js
-  var slider = new Swiper(".testimonial-three-active", {
-    slidesPerView: 2,
-    spaceBetween: 10,
-    autoplay: true,
-    speed: 1500,
+  var testimonialSlider = new Swiper(".testimonial-three-active", {
+    slidesPerView: 1,
+    spaceBetween: 24,
+    speed: 600,
     loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    navigation: {
+      nextEl: ".testimonial-slider-next",
+      prevEl: ".testimonial-slider-prev",
+    },
     breakpoints: {
-      1200: {
-        slidesPerView: 2,
-      },
-      992: {
-        slidesPerView: 1,
-      },
-      768: {
-        slidesPerView: 1,
-      },
-      576: {
-        slidesPerView: 1,
-      },
       0: {
         slidesPerView: 1,
+        spaceBetween: 16,
       },
-    },
-    // Navigation arrows
-    navigation: {
-      nextEl: ".slider-next",
-      prevEl: ".slider-prev",
+      768: {
+        slidesPerView: 2,
+        spaceBetween: 24,
+      },
+      992: {
+        slidesPerView: 2,
+        spaceBetween: 24,
+      },
+      1200: {
+        slidesPerView: 3,
+        spaceBetween: 30,
+      },
     },
   });
 })(jQuery);

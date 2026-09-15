@@ -131,6 +131,11 @@
     $(".body-overlay").removeClass("opened");
   });
 
+  $(document).on("click", ".tw-main-menu-mobile a", function () {
+    $(".tw-offcanvas-2-area").removeClass("opened");
+    $(".body-overlay, .side-overlay, .overlay").removeClass("opened apply active");
+  });
+
   ////////////////////////////////////////////////////
   // 06. Sidebar Js
   $(".tw-menu-bar").on("click", function () {
