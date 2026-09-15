@@ -1,10 +1,6 @@
 /* Media Breakpoint for Each Device End */
 /* ======================= Css table of contents Start =================================
-   * Template name: Unifex
-   * Version: 1.0
-   * Description: Unifex HTML Template
-   * Author: rox_themes
-   * Author-url: https://themeforest.net/user/rox_themes */
+   
 /* **************************** Abstracts ****************************
    ** Breakpoints
    ** Functions
@@ -7951,45 +7947,20 @@ input:focus-visible {
 
 /* ===================== Scroll to Top Start ================================= */
 .back-to-top-wrapper {
-  position: fixed;
-  right: 50px;
-  bottom: 0;
-  height: 44px;
-  width: 44px;
-  cursor: pointer;
-  display: block;
-  border-radius: 50%;
-  z-index: 99;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .back-to-top-wrapper.back-to-top-btn-show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 50px;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
 
 .back-to-top-btn {
-  display: inline-block;
-  width: 44px;
-  height: 44px;
-  line-height: 44px;
-  text-align: center;
-  background: var(--main-600);
-  box-shadow: 0px 8px 16px rgba(3, 4, 28, 0.3);
-  color: hsl(var(--heading-color));
-  border-radius: 50%;
-  transition: all 0.3s;
-}
-
-.back-to-top-btn svg {
-  transform: translateY(-2px);
-}
-
-.back-to-top-btn:hover {
-  transform: translateY(-4px);
+  display: none !important;
 }
 
 /* ===================== Scroll to Top End ================================= */
@@ -8741,6 +8712,7 @@ body.tw-magic-cursor #magic-cursor {
   line-height: 100%;
   text-align: center;
   white-space: nowrap;
+  margin-block-start: 30px;
 }
 
 @media screen and (max-width: 1799px) {
@@ -9289,6 +9261,25 @@ body.tw-magic-cursor #magic-cursor {
     0 4px 4px 0 rgba(0, 0, 0, 0.25),
     -4px -4px 0 0 rgba(255, 255, 255, 0.25);
   border-radius: 10px;
+}
+
+/* Tablets: 3 boxes per row for Platforms section */
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .brand-expertise-row {
+    justify-content: center !important;
+  }
+  .brand-expertise-row > [class*="col-"] {
+    flex: 0 0 auto !important;
+    width: 33.3333% !important;
+  }
+}
+
+/* Mobile: 2 boxes per row for Platforms section */
+@media screen and (max-width: 767px) {
+  .brand-expertise-row > [class*="col-"] {
+    flex: 0 0 auto !important;
+    width: 50% !important;
+  }
 }
 
 /* brand css end */
@@ -9942,6 +9933,7 @@ body.tw-magic-cursor #magic-cursor {
 
 .service-three-number {
   width: 86px;
+  align-items: left;
 }
 
 .service-three-number img {
@@ -9954,6 +9946,11 @@ body.tw-magic-cursor #magic-cursor {
   }
 }
 
+@media screen and (max-width: 768px) {
+  .service-three-title {
+    font-size: 30px;
+  }
+}
 .service-ip-area {
   background: #010406;
 }
@@ -10935,8 +10932,36 @@ body.tw-magic-cursor #magic-cursor {
 }
 
 @media screen and (max-width: 991px) {
+  .header-three nav {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .header-three .header-logo,
+  .header-three .header-right,
+  .header-three-menu {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+  }
+  .header-three .header-logo a {
+    display: flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
+  }
+  .header-three .header-logo img {
+    max-width: 195px !important;
+    height: auto !important;
+    display: block !important;
+  }
   .header-three-menu {
     display: block !important;
+  }
+  .header-three-menu button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
   }
 }
 
@@ -10976,6 +11001,7 @@ body.tw-magic-cursor #magic-cursor {
 .banner-three-man {
   top: 150px !important;
   inset-block-end: auto !important;
+  height: auto;
   z-index: 1;
 }
 
@@ -11022,8 +11048,23 @@ body.tw-magic-cursor #magic-cursor {
     z-index: 2 !important;
   }
   .banner-three-center-title {
-    font-size: 2.2rem !important;
+    font-size: 42px !important;
     margin-block-end: 20px !important;
+    margin-block-start: 40px !important;
+    -webkit-text-stroke: 0 !important;
+    -webkit-text-stroke-width: 0 !important;
+    color: #0b0c10 !important;
+    width: 68% !important;
+    max-width: 68% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+  .banner-three-center-title .hero-mobile-desc {
+    display: block !important;
+    color: #0b0c10 !important;
+    -webkit-text-stroke: none !important;
   }
 }
 
@@ -11041,7 +11082,22 @@ body.tw-magic-cursor #magic-cursor {
     margin-block-start: 190px !important;
   }
   .banner-three-center-title {
-    font-size: 1.8rem !important;
+    font-size: 36px !important;
+    margin-block-start: 38px !important;
+    -webkit-text-stroke: 0 !important;
+    -webkit-text-stroke-width: 0 !important;
+    color: #0b0c10 !important;
+    width: 90% !important;
+    max-width: 90% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+  .banner-three-center-title .hero-mobile-desc {
+    display: block !important;
+    color: #0b0c10 !important;
+    -webkit-text-stroke: none !important;
   }
 }
 
@@ -11054,17 +11110,21 @@ body.tw-magic-cursor #magic-cursor {
 /* Mobile Hero Adjustments (<= 767px) */
 @media screen and (max-width: 767px) {
   .banner-three-area {
-    padding-block: 85px 40px !important;
+    padding-block-start: 48px !important;
+    padding-block-end: 40px !important;
   }
   .banner-three-title {
-    margin-block-start: 18px !important;
-    margin-block-end: 10px !important;
-    font-size: 32px !important;
+    margin-block-start: 70px !important;
+    margin-block-end: 14px !important;
+    font-size: 48px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+    line-height: 1.15 !important;
   }
   .banner-three-man {
-    top: 25px !important;
-    width: 195px !important;
-    max-width: 65vw !important;
+    top: 32px !important;
+    width: 330px !important;
+    max-width: 95vw !important;
   }
   .banner-three-man img {
     width: 100% !important;
@@ -11073,14 +11133,24 @@ body.tw-magic-cursor #magic-cursor {
     margin: 0 auto !important;
   }
   .banner-three-wrap {
-    margin-block-start: 140px !important;
+    margin-block-start: 175px !important;
     justify-content: center !important;
   }
   .banner-three-center-title {
-    font-size: 1.15rem !important;
-    line-height: 1.3 !important;
-    margin-block-end: 12px !important;
-    max-width: 290px !important;
+    -webkit-text-stroke: 0 !important;
+    -webkit-text-stroke-width: 0 !important;
+    color: #0b0c10 !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    max-width: 90% !important;
+    margin-block-end: 16px !important;
+    margin-block-start: 35px !important;
+  }
+  .banner-three-center-title .hero-mobile-desc {
+    display: block !important;
+    color: #0b0c10 !important;
+    -webkit-text-stroke: none !important;
   }
   .banner-three-button {
     gap: 10px !important;
@@ -11094,23 +11164,30 @@ body.tw-magic-cursor #magic-cursor {
 
 @media screen and (max-width: 424px) {
   .banner-three-area {
-    padding-block: 78px 30px !important;
+    padding-block-start: 42px !important;
+    padding-block-end: 30px !important;
   }
   .banner-three-title {
-    font-size: 27px !important;
-    margin-block-start: 16px !important;
-    margin-block-end: 8px !important;
+    font-size: 42px !important;
+    margin-block-start: 85px !important;
+    margin-block-end: 10px !important;
+    letter-spacing: -0.5px !important;
   }
   .banner-three-man {
-    top: 22px !important;
-    width: 180px !important;
+    top: 28px !important;
+    width: 300px !important;
+    max-width: 100vw !important;
   }
   .banner-three-wrap {
-    margin-block-start: 130px !important;
+    margin-block-start: 160px !important;
   }
   .banner-three-center-title {
-    font-size: 1.05rem !important;
-    margin-block-end: 10px !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    max-width: 90% !important;
+    margin-block-end: 16px !important;
+    margin-block-start: 35px !important;
   }
   .banner-three-button a {
     padding: 9px 16px !important;
@@ -11550,6 +11627,66 @@ body.tw-magic-cursor #magic-cursor {
   .process-step-desc {
     font-size: 0.9rem;
     line-height: 1.5;
+  }
+}
+
+/* ==========================================================================
+   15. FLOATING WHATSAPP BUTTON (Mobile Breakpoints)
+   ========================================================================== */
+.whatsapp-float-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 45px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45), 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+}
+
+.whatsapp-float-btn:hover,
+.whatsapp-float-btn:focus {
+  background: #20ba5a;
+  color: #ffffff !important;
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.55), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.whatsapp-float-btn:active {
+  transform: scale(0.95);
+}
+
+.whatsapp-float-btn svg {
+  width: 32px;
+  height: 32px;
+  fill: #ffffff;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float-btn:hover svg {
+  transform: scale(1.06);
+}
+
+/* Show on All Breakpoints - Desktop & Mobile */
+
+/* Margin on smaller mobile screens */
+@media screen and (max-width: 424px) {
+  .whatsapp-float-btn {
+    bottom: 40px;
+    right: 45px;
+    width: 54px;
+    height: 54px;
+  }
+  .whatsapp-float-btn svg {
+    width: 29px;
+    height: 29px;
   }
 }
 
