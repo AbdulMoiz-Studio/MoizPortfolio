@@ -3,8 +3,12 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/work/:slug",
+      "destination": "/work/:slug.html"
+    },
+    {
       "source": "/projects/:slug",
-      "destination": "/projects/:slug.html"
+      "destination": "/work/:slug.html"
     },
     {
       "source": "/(about|services|work|process|testimonials|contact)",

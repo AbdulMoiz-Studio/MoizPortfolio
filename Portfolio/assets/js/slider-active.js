@@ -144,4 +144,39 @@
       },
     },
   });
+
+  ////////////////////////////////////////////////////
+  // 07. Case Study Visuals Slider Js
+  if ($(".case-study-visuals-slider").length) {
+    var visualsSlider = new Swiper(".case-study-visuals-slider", {
+      slidesPerView: "auto",
+      centeredSlides: true,
+      spaceBetween: 28,
+      speed: 700,
+      loop: true,
+      grabCursor: true,
+      keyboard: {
+        enabled: true,
+      },
+      navigation: {
+        nextEl: ".visuals-slider-next",
+        prevEl: ".visuals-slider-prev",
+      },
+      pagination: {
+        el: ".visuals-slider-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        0: {
+          spaceBetween: 14,
+        },
+        768: {
+          spaceBetween: 20,
+        },
+        1200: {
+          spaceBetween: 28,
+        },
+      },
+    });
+  }
 })(jQuery);
