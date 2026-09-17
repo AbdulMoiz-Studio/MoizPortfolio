@@ -81,6 +81,16 @@
   function updateActiveNav(path) {
     $(".main-menu a, .tw-main-menu-mobile a").removeClass("active-nav-link text-main-two-600");
     if (!path || path === "/") return;
+    if (path.startsWith("/projects/")) {
+      $(".main-menu a, .tw-main-menu-mobile a").each(function () {
+        const sec = $(this).attr("data-section") || "";
+        const href = $(this).attr("href") || "";
+        if (sec === "work" || href === "/work" || href === "#work") {
+          $(this).addClass("active-nav-link text-main-two-600");
+        }
+      });
+      return;
+    }
     const cleanSection = path.replace(/^\//, "");
     $(".main-menu a, .tw-main-menu-mobile a").each(function () {
       const href = $(this).attr("href") || "";
@@ -184,15 +194,31 @@
       }
 
       if (destinationSection) {
-        event.preventDefault();
-        isAutoScrolling = true;
-
         if (destinationSection === "TOP") {
+          const currentNorm = (window.location.pathname || "/").replace(/\/$/, "") || "/";
+          if (currentNorm !== "/" && currentNorm !== "/index.html") {
+            window.location.href = "/";
+            return;
+          }
+          event.preventDefault();
+          isAutoScrolling = true;
           scrollToPageTop(true);
         } else {
           const $target = $(destinationSection);
           if ($target.length) {
+            event.preventDefault();
+            isAutoScrolling = true;
             scrollToTargetElement($target[0], true);
+          } else {
+            // Target is on another page (e.g. browsing from /projects/ back to home)
+            event.preventDefault();
+            const secId = destinationSection.replace(/^#/, "");
+            if (secId && sectionRouteMap[secId]) {
+              window.location.href = "/#" + secId;
+            } else {
+              window.location.href = cleanUrl;
+            }
+            return;
           }
         }
 

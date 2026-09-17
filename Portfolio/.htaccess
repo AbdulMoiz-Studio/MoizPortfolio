@@ -6,6 +6,10 @@
   RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/
   RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
 
+  # Route /projects/name to projects/name.html
+  RewriteCond %{DOCUMENT_ROOT}/projects/$1.html -f
+  RewriteRule ^projects/([^/]+)/?$ projects/$1.html [L,QSA]
+
   # Route sections to index.html
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

@@ -1,3 +1,4 @@
+/projects/:slug  /projects/:slug.html  200
 /about         /index.html   200
 /services      /index.html   200
 /work          /index.html   200
