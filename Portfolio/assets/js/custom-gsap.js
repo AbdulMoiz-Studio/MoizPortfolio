@@ -42,29 +42,240 @@
     });
   }
 
-  function smoothScrollHandler() {
-    $(document).on("click", 'a[href^="#"]', function (event) {
-      var hash = this.getAttribute("href");
-      if (!hash || hash === "#" || hash.length <= 1) return;
-      var target = $(hash);
-      if (target.length) {
-        event.preventDefault();
-        var headerHeight = $(".header").outerHeight() || 80;
-        var offsetTop = target.offset().top - headerHeight - 10;
-        if (smoother) {
-          smoother.scrollTo(target[0], true, "top " + (headerHeight + 10) + "px");
-        } else {
-          $("html, body").stop().animate({
-            scrollTop: offsetTop,
-          }, 500);
-        }
-        if (window.history && window.history.pushState) {
-          window.history.pushState(null, null, hash);
-        }
+  ////////////////////////////////////////////////////
+  // Clean Professional URL Router & Scroll Manager
+  // Formats URLs cleanly without index.html and without #
+  // e.g., /about, /services, /work, /process, /testimonials, /contact, /
+  const sectionRouteMap = {
+    about: "/about",
+    services: "/services",
+    work: "/work",
+    process: "/process",
+    testimonials: "/testimonials",
+    contact: "/contact"
+  };
+
+  const routeSectionMap = {
+    "/about": "#about",
+    "/services": "#services",
+    "/work": "#work",
+    "/process": "#process",
+    "/testimonials": "#testimonials",
+    "/contact": "#contact"
+  };
+
+  let isAutoScrolling = false;
+
+  function getCleanPath() {
+    let path = window.location.pathname || "/";
+    if (path.toLowerCase().endsWith("index.html")) {
+      path = path.slice(0, -10);
+      if (!path.startsWith("/")) path = "/" + path;
+    }
+    if (path.length > 1 && path.endsWith("/")) {
+      path = path.slice(0, -1);
+    }
+    return path || "/";
+  }
+
+  function updateActiveNav(path) {
+    $(".main-menu a, .tw-main-menu-mobile a").removeClass("active-nav-link text-main-two-600");
+    if (!path || path === "/") return;
+    const cleanSection = path.replace(/^\//, "");
+    $(".main-menu a, .tw-main-menu-mobile a").each(function () {
+      const href = $(this).attr("href") || "";
+      const sec = $(this).attr("data-section") || "";
+      if (sec === cleanSection || href === path || href === "#" + cleanSection) {
+        $(this).addClass("active-nav-link text-main-two-600");
       }
     });
   }
-  smoothScrollHandler();
+
+  function scrollToTargetElement(targetEl, isSmooth) {
+    if (!targetEl) return;
+    const headerHeight = $(".header").outerHeight() || 80;
+    if (smoother) {
+      smoother.scrollTo(targetEl, isSmooth !== false, "top " + (headerHeight + 10) + "px");
+    } else {
+      const offsetTop = $(targetEl).offset().top - headerHeight - 10;
+      if (isSmooth !== false) {
+        $("html, body").stop().animate({ scrollTop: offsetTop }, 600);
+      } else {
+        window.scrollTo(0, offsetTop);
+      }
+    }
+  }
+
+  function scrollToPageTop(isSmooth) {
+    if (smoother) {
+      smoother.scrollTo(0, isSmooth !== false);
+    } else {
+      if (isSmooth !== false) {
+        $("html, body").stop().animate({ scrollTop: 0 }, 500);
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }
+  }
+
+  function initUrlAndRouting() {
+    // 1. Initial URL cleanup: strip index.html and convert legacy hash (#) to clean path
+    let initialPath = getCleanPath();
+    const initialHash = window.location.hash ? window.location.hash.replace(/^#/, "") : "";
+
+    if (initialHash && sectionRouteMap[initialHash]) {
+      initialPath = sectionRouteMap[initialHash];
+    }
+
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({ path: initialPath }, "", initialPath);
+    }
+
+    updateActiveNav(initialPath);
+
+    // 2. Direct landing navigation: scroll to target section if path is e.g. /about, /testimonials
+    if (initialPath && routeSectionMap[initialPath]) {
+      const targetSelector = routeSectionMap[initialPath];
+      const targetEl = document.querySelector(targetSelector);
+      if (targetEl) {
+        setTimeout(() => {
+          scrollToTargetElement(targetEl, true);
+        }, 1200);
+      }
+    }
+
+    // 3. Click handler for navigation, logo, buttons, and in-page links
+    $(document).on("click", 'a[href^="/"], a[href^="#"], a[data-section], a[data-route]', function (event) {
+      const $this = $(this);
+      const href = $this.attr("href") || "";
+      const dataSec = $this.attr("data-section") || "";
+      const dataRoute = $this.attr("data-route") || "";
+
+      // Skip external, new tab, tel, mailto, asset links
+      if ($this.attr("target") === "_blank") return;
+      if (href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;
+      if (href.startsWith("http://") || href.startsWith("https://")) return;
+      if (href.startsWith("/assets/") || href.startsWith("assets/")) return;
+
+      let destinationSection = null;
+      let cleanUrl = "/";
+
+      if (dataRoute === "/" || href === "/" || href === "index.html" || href === "/index.html" || href === "#") {
+        destinationSection = "TOP";
+        cleanUrl = "/";
+      } else if (dataSec && sectionRouteMap[dataSec]) {
+        destinationSection = "#" + dataSec;
+        cleanUrl = sectionRouteMap[dataSec];
+      } else if (href.startsWith("#")) {
+        const hashId = href.replace(/^#/, "");
+        if (sectionRouteMap[hashId]) {
+          destinationSection = href;
+          cleanUrl = sectionRouteMap[hashId];
+        } else if ($(href).length) {
+          destinationSection = href;
+          cleanUrl = "/" + hashId;
+        }
+      } else if (href.startsWith("/")) {
+        const routePath = href.replace(/\/$/, "");
+        if (routeSectionMap[routePath]) {
+          destinationSection = routeSectionMap[routePath];
+          cleanUrl = routePath;
+        }
+      }
+
+      if (destinationSection) {
+        event.preventDefault();
+        isAutoScrolling = true;
+
+        if (destinationSection === "TOP") {
+          scrollToPageTop(true);
+        } else {
+          const $target = $(destinationSection);
+          if ($target.length) {
+            scrollToTargetElement($target[0], true);
+          }
+        }
+
+        if (window.history && window.history.pushState) {
+          if (window.location.pathname !== cleanUrl) {
+            window.history.pushState({ path: cleanUrl }, "", cleanUrl);
+          }
+        }
+
+        updateActiveNav(cleanUrl);
+
+        setTimeout(() => {
+          isAutoScrolling = false;
+        }, 900);
+      }
+    });
+
+    // 4. Browser Back/Forward buttons (popstate)
+    window.addEventListener("popstate", function () {
+      const cleanPath = getCleanPath();
+      isAutoScrolling = true;
+
+      if (cleanPath === "/" || !cleanPath) {
+        scrollToPageTop(true);
+        updateActiveNav("/");
+      } else if (routeSectionMap[cleanPath]) {
+        const targetEl = document.querySelector(routeSectionMap[cleanPath]);
+        if (targetEl) {
+          scrollToTargetElement(targetEl, true);
+          updateActiveNav(cleanPath);
+        }
+      }
+
+      setTimeout(() => {
+        isAutoScrolling = false;
+      }, 700);
+    });
+
+    // 5. ScrollSpy with ScrollTrigger: sync URL & active nav as user scrolls
+    const sectionList = [
+      { id: "about", path: "/about" },
+      { id: "services", path: "/services" },
+      { id: "work", path: "/work" },
+      { id: "process", path: "/process" },
+      { id: "testimonials", path: "/testimonials" },
+      { id: "contact", path: "/contact" }
+    ];
+
+    sectionList.forEach((item) => {
+      const el = document.getElementById(item.id);
+      if (!el) return;
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 45%",
+        end: "bottom 45%",
+        onEnter: () => syncScrollSection(item.path),
+        onEnterBack: () => syncScrollSection(item.path)
+      });
+    });
+
+    // Top hero area trigger to reset URL to "/"
+    const bannerArea = document.querySelector(".banner-three-area");
+    if (bannerArea) {
+      ScrollTrigger.create({
+        trigger: bannerArea,
+        start: "top top",
+        end: "bottom 50%",
+        onEnterBack: () => syncScrollSection("/")
+      });
+    }
+
+    function syncScrollSection(path) {
+      if (isAutoScrolling) return;
+      const current = getCleanPath();
+      if (current !== path) {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({ path: path }, "", path);
+        }
+      }
+      updateActiveNav(path);
+    }
+  }
+  initUrlAndRouting();
 
   ////////////////////////////////////////////////////
   // 02. Char SplitText Js
