@@ -10,11 +10,8 @@ base_template = """<!DOCTYPE html>
     <meta name="description" content="{meta_desc}" />
 
     <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      href="/assets/images/logo/apple-touch-icon.png"
-      type="image/x-icon"
-    />
+    <link rel="icon" href="/assets/images/thumbs/final favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/images/thumbs/final favicon.png" />
 
     <!-- CSS files -->
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
