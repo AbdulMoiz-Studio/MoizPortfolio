@@ -47,29 +47,42 @@ Reply to this email to respond directly to ${cleanName}.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light dark">
-  <meta name="supported-color-schemes" content="light dark">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
   <title>${escapeHtml(subject)}</title>
+  <style>
+    :root {
+      color-scheme: light;
+      supported-color-schemes: light;
+    }
+    .force-white-bg,
+    u + .body .force-white-bg,
+    [data-ogsb] .force-white-bg {
+      background-color: #ffffff !important;
+      background-image: linear-gradient(#ffffff, #ffffff) !important;
+      background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+    }
+  </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #18181b;">
+<body class="body" style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #18181b;">
   <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f5; padding: 30px 15px;">
     <tr>
       <td align="center">
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <!-- Top Accent Bar -->
           <tr>
             <td height="5" style="background-color: #FF5A1F; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
-          <!-- Header (Light Background & Black Logo as in Screenshot 3) -->
+          <!-- Header (Solid Pure White Background & Black Logo - Immune to Dark Mode Inversion) -->
           <tr>
-            <td style="background-color: #f8f9fa; padding: 24px 30px; border-bottom: 1px solid #e4e4e7;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <td class="force-white-bg" bgcolor="#ffffff" style="background-color: #ffffff !important; background-image: linear-gradient(#ffffff, #ffffff) !important; background: #ffffff linear-gradient(#ffffff, #ffffff) !important; padding: 24px 30px; border-bottom: 1px solid #e4e4e7;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff !important; background-image: linear-gradient(#ffffff, #ffffff) !important;">
                 <tr>
                   <td>
-                    <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio" width="160" style="max-width: 160px; height: auto; display: block; border: 0;" />
+                    <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio" width="160" style="max-width: 160px; height: auto; display: block; border: 0; background-color: #ffffff; background-image: linear-gradient(#ffffff, #ffffff);" />
                   </td>
                   <td align="right">
-                    <span style="display: inline-block; padding: 5px 12px; background-color: #FF5A1F; color: #ffffff; font-size: 11px; font-weight: bold; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px;">NEW INQUIRY</span>
+                    <span style="display: inline-block; padding: 5px 12px; background-color: #FF5A1F; background-image: linear-gradient(#FF5A1F, #FF5A1F); color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-size: 11px; font-weight: bold; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px;">NEW INQUIRY</span>
                   </td>
                 </tr>
               </table>
@@ -192,13 +205,27 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light dark">
-  <meta name="supported-color-schemes" content="light dark">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
   <title>${escapeHtml(subject)}</title>
   <style>
     :root {
-      color-scheme: light dark;
-      supported-color-schemes: light dark;
+      color-scheme: light;
+      supported-color-schemes: light;
+    }
+    /* Force Solid Pure White Header in Gmail Dark Mode */
+    .force-white-bg,
+    u + .body .force-white-bg,
+    [data-ogsb] .force-white-bg {
+      background-color: #ffffff !important;
+      background-image: linear-gradient(#ffffff, #ffffff) !important;
+      background: #ffffff linear-gradient(#ffffff, #ffffff) !important;
+    }
+    .header-subtitle,
+    u + .body .header-subtitle,
+    [data-ogsc] .header-subtitle {
+      color: #4b5563 !important;
+      -webkit-text-fill-color: #4b5563 !important;
     }
     /* Universal Button Text Protection for Dark Mode (Gmail iOS/Android, Apple Mail, Outlook) */
     .btn-white-text,
@@ -216,12 +243,6 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
       color: #ffffff !important;
       -webkit-text-fill-color: #ffffff !important;
     }
-    @media (prefers-color-scheme: dark) {
-      .btn-white-text {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-      }
-    }
   </style>
 </head>
 <body class="body" style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #18181b; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
@@ -229,20 +250,26 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
     <tr>
       <td align="center">
         <!-- Main Email Container (600px max) -->
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <!-- Top Orange Accent Bar -->
           <tr>
             <td height="5" style="background-color: #FF5A1F; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
-          <!-- Header (Light Background & Black Logo as in Screenshot 3) -->
+          <!-- Header (Solid Pure White Background & Black Logo - Immune to Dark Mode Inversion) -->
           <tr>
-            <td style="background-color: #f8f9fa; padding: 32px 30px; text-align: center; border-bottom: 1px solid #e4e4e7;">
-              <a href="https://www.moizstudio.me" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">
-                <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio Logo" width="200" style="max-width: 200px; width: 100%; height: auto; display: block; margin: 0 auto; border: 0;" />
-              </a>
-              <p style="margin: 10px 0 0 0; font-size: 11px; color: #52525b !important; -webkit-text-fill-color: #52525b !important; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;">
-                Wix Studio Expert &bull; Web Designer &bull; Wix Velo
-              </p>
+            <td class="force-white-bg" bgcolor="#ffffff" style="background-color: #ffffff !important; background-image: linear-gradient(#ffffff, #ffffff) !important; background: #ffffff linear-gradient(#ffffff, #ffffff) !important; padding: 32px 30px; text-align: center; border-bottom: 1px solid #e4e4e7;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff !important; background-image: linear-gradient(#ffffff, #ffffff) !important; margin: 0 auto;">
+                <tr>
+                  <td align="center">
+                    <a href="https://www.moizstudio.me" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">
+                      <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio Logo" width="200" style="max-width: 200px; width: 100%; height: auto; display: block; margin: 0 auto; border: 0; background-color: #ffffff; background-image: linear-gradient(#ffffff, #ffffff);" />
+                    </a>
+                    <p class="header-subtitle" style="margin: 10px 0 0 0; font-size: 11px; color: #4b5563 !important; -webkit-text-fill-color: #4b5563 !important; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;">
+                      Wix Studio Expert &bull; Web Designer &bull; Wix Velo
+                    </p>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
           <!-- Body Content -->
