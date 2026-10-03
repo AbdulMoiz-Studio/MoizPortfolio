@@ -375,8 +375,8 @@ base_template = """<!DOCTYPE html>
           <!-- 1. Project Hero Start -->
           <section class="project-hero-area position-relative z-1">
             <div class="container tw-container-1800-px">
-              <div class="row">
-                <div class="col-xl-10 col-lg-11">
+              <div class="row align-items-end justify-content-between g-4">
+                <div class="col-xl-8 col-lg-8">
                   <div class="project-hero-breadcrumb" data-aos="fade-up" data-aos-duration="800">
                     <span class="project-breadcrumb-badge text-main-two-600 text-uppercase">
                       <a href="/work" data-section="work" class="hover-text-main-two-600 text-neutral-500">WORK</a>
@@ -390,6 +390,18 @@ base_template = """<!DOCTYPE html>
                   <p class="tw-text-base tw-text-md-xl text-neutral-600 tw-mb-0" style="max-width: 850px;" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                     {hero_description}
                   </p>
+                </div>
+                <div class="col-xl-4 col-lg-4 text-lg-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                  <a
+                    class="tw-hover-btn bg-main-two-600 text-white fw-bold tw-py-4 tw-px-8 d-inline-flex align-items-center tw-gap-2 hover-text-heading text-uppercase tw-rounded-md"
+                    href="{live_url}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>VISIT LIVE SITE</span>
+                    <i class="ph-bold ph-arrow-up-right tw-text-lg"></i>
+                    <span class="tw-hover-btn-circle-dot bg-white"></span>
+                  </a>
                 </div>
               </div>
 
@@ -864,6 +876,7 @@ projects_data = [
         "tags": ["WIX STUDIO", "UI/UX", "RESPONSIVE DESIGN"],
         "category_badge": "WIX STUDIO CASE STUDY",
         "hero_description": "A premium Wix Studio website designed and developed to build a strong digital presence, deliver a responsive experience and support on-page SEO.",
+        "live_url": "https://www.mikenellis.com/",
         "meta_client": "SOPHIA",
         "meta_industry": "POLITICAL STRATEGY",
         "meta_platform": "WIX STUDIO",
@@ -893,6 +906,7 @@ projects_data = [
         "tags": ["WIX STUDIO", "VELO DEVELOPMENT", "SEO"],
         "category_badge": "WIX STUDIO CASE STUDY",
         "hero_description": "An agency-level Wix Studio website with custom Velo functionality, designed and developed for a data science and analytics company.",
+        "live_url": "https://www.inpro-analytics.at/",
         "meta_client": "MANUEL WOLFSGRUBER",
         "meta_industry": "IT & DATA SCIENCE",
         "meta_platform": "WIX STUDIO",
@@ -923,6 +937,7 @@ projects_data = [
         "tags": ["WIX STUDIO", "UI/UX", "RESPONSIVE DESIGN"],
         "category_badge": "WIX STUDIO CASE STUDY",
         "hero_description": "A playful, welcoming Wix Studio website designed to help a pet sitting company connect with pet owners and present its services clearly.",
+        "live_url": "https://www.denverpetsittingcompany.com/",
         "meta_client": "DENVER PET SITTING COMPANY",
         "meta_industry": "PET CARE SERVICES",
         "meta_platform": "WIX STUDIO",
@@ -948,10 +963,11 @@ projects_data = [
         "project_name": "VANITYXO",
         "main_title": "VANITYXO",
         "subtitle": "WIX STUDIO DESIGN & CUSTOM DASHBOARDS",
-        "main_description": "A complete Wix Studio website with custom user dashboards, a login and sign-up system, and SEO for a growing beauty brand.",
+        "main_description": "A complete Wix Studio website with custom user dashboards, a login and sign-up system, and SEO for a growing wireless dealer platform.",
         "tags": ["WIX STUDIO", "CUSTOM DASHBOARD", "SEO"],
         "category_badge": "WIX STUDIO CASE STUDY",
-        "hero_description": "A complete Wix Studio build with custom dashboards, a login and sign-up system, and SEO for a large beauty and skincare company.",
+        "hero_description": "A complete Wix Studio build with custom dashboards, a login and sign-up system, and SEO for a large wireless dealer platform.",
+        "live_url": "https://vanityxo.com/",
         "meta_client": "VANITYXO",
         "meta_industry": "WIRELESS DEALER PLATFORM",
         "meta_platform": "WIX STUDIO",
@@ -1058,19 +1074,6 @@ def make_testimonial_block(p):
 work_dir = r"d:\Moiz Profiles\Portfolio\work"
 os.makedirs(work_dir, exist_ok=True)
 
-# 1. Clean up old obsolete project files and directories
-old_slugs = ["brand-design-identity", "creative-studio-ecommerce", "epic-strategy", "pixelcraft-studio"]
-for old in old_slugs:
-    old_file = os.path.join(work_dir, f"{old}.html")
-    if os.path.exists(old_file):
-        os.remove(old_file)
-        print(f"Removed old file: {old_file}")
-    old_subdir = os.path.join(work_dir, old)
-    if os.path.exists(old_subdir):
-        shutil.rmtree(old_subdir)
-        print(f"Removed old dir: {old_subdir}")
-
-# 2. Generate all new project pages
 for p in projects_data:
     slug = p["slug"]
     t_block = make_testimonial_block(p)
@@ -1083,6 +1086,7 @@ for p in projects_data:
         project_name=p["project_name"],
         category_badge=p["category_badge"],
         hero_description=p["hero_description"],
+        live_url=p["live_url"],
         meta_client=p["meta_client"],
         meta_industry=p["meta_industry"],
         meta_platform=p["meta_platform"],
