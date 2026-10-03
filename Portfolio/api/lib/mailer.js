@@ -61,13 +61,20 @@ async function sendOwnerNotification({ firstName, email, message, submittedAt })
 
   const template = ownerEmail({ firstName, email, message, submittedAt });
 
+  const messageId = `<inquiry.${Date.now()}.${Math.random().toString(36).substring(2, 9)}@moizstudio.me>`;
+
   return transporter.sendMail({
     from: `"${fromName}" <${fromEmail}>`,
     to: ownerEmailAddress,
     replyTo: email,
     subject: template.subject,
     text: template.text,
-    html: template.html
+    html: template.html,
+    messageId,
+    headers: {
+      'X-Mailer': 'Moiz Studio Notification Engine',
+      'X-Entity-Ref-ID': messageId
+    }
   });
 }
 
@@ -85,6 +92,7 @@ async function sendVisitorAutoReply({ firstName, email, message }) {
   const ownerEmailAddress = process.env.OWNER_EMAIL || 'contactwithabdulmoiz@gmail.com';
 
   const template = visitorEmail({ firstName, message });
+  const messageId = `<autoreply.${Date.now()}.${Math.random().toString(36).substring(2, 9)}@moizstudio.me>`;
 
   return transporter.sendMail({
     from: `"${fromName}" <${fromEmail}>`,
@@ -92,7 +100,14 @@ async function sendVisitorAutoReply({ firstName, email, message }) {
     replyTo: ownerEmailAddress,
     subject: template.subject,
     text: template.text,
-    html: template.html
+    html: template.html,
+    messageId,
+    headers: {
+      'X-Mailer': 'Moiz Studio Notification Engine',
+      'Auto-Submitted': 'auto-replied',
+      'X-Auto-Response-Suppress': 'All',
+      'X-Entity-Ref-ID': messageId
+    }
   });
 }
 

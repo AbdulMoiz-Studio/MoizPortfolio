@@ -60,16 +60,16 @@ Reply to this email to respond directly to ${cleanName}.
           <tr>
             <td height="5" style="background-color: #FF5A1F; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
-          <!-- Header -->
+          <!-- Header (Light Background & Black Logo as in Screenshot 3) -->
           <tr>
-            <td style="background-color: #0d0d0d; padding: 24px 30px;">
+            <td style="background-color: #f8f9fa; padding: 24px 30px; border-bottom: 1px solid #e4e4e7;">
               <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td>
-                    <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-footer.png" alt="Moiz Studio" width="150" style="max-width: 150px; height: auto; display: block; border: 0;" />
+                    <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio" width="160" style="max-width: 160px; height: auto; display: block; border: 0;" />
                   </td>
                   <td align="right">
-                    <span style="display: inline-block; padding: 4px 10px; background-color: #FF5A1F; color: #ffffff; font-size: 11px; font-weight: bold; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px;">NEW INQUIRY</span>
+                    <span style="display: inline-block; padding: 5px 12px; background-color: #FF5A1F; color: #ffffff; font-size: 11px; font-weight: bold; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px;">NEW INQUIRY</span>
                   </td>
                 </tr>
               </table>
@@ -234,13 +234,13 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
           <tr>
             <td height="5" style="background-color: #FF5A1F; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
-          <!-- Header (Always Dark with White Logo) -->
+          <!-- Header (Light Background & Black Logo as in Screenshot 3) -->
           <tr>
-            <td style="background-color: #0d0d0d; padding: 28px 30px; text-align: center;">
+            <td style="background-color: #f8f9fa; padding: 32px 30px; text-align: center; border-bottom: 1px solid #e4e4e7;">
               <a href="https://www.moizstudio.me" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">
-                <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-footer.png" alt="Moiz Studio Logo" width="190" style="max-width: 190px; width: 100%; height: auto; display: block; margin: 0 auto; border: 0;" />
+                <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio Logo" width="200" style="max-width: 200px; width: 100%; height: auto; display: block; margin: 0 auto; border: 0;" />
               </a>
-              <p style="margin: 8px 0 0 0; font-size: 11px; color: #a1a1aa !important; -webkit-text-fill-color: #a1a1aa !important; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;">
+              <p style="margin: 10px 0 0 0; font-size: 11px; color: #52525b !important; -webkit-text-fill-color: #52525b !important; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;">
                 Wix Studio Expert &bull; Web Designer &bull; Wix Velo
               </p>
             </td>
@@ -293,7 +293,7 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
                   <tr>
                     <td align="center" style="background-color: #25D366; background-image: linear-gradient(#25D366, #25D366); border-radius: 6px; padding: 12px 28px; border: 1px solid #25D366;">
                       <a href="https://api.whatsapp.com/send?phone=923098828483" target="_blank" rel="noopener noreferrer" class="btn-white-text" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-decoration: none; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; letter-spacing: 0.3px;">
-                        <img src="https://www.moizstudio.me/assets/images/icons/whatsapp.png" width="18" height="18" alt="WhatsApp" style="vertical-align: middle; margin-right: 8px; display: inline-block; border: 0;" />
+                        <img src="https://www.moizstudio.me/assets/images/icons/whatsapp-white.png" width="20" height="20" alt="" style="vertical-align: middle; margin-right: 8px; display: inline-block; border: 0;" />
                         <span class="btn-white-text" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-weight: 700; font-size: 14px; text-decoration: none;">Chat on WhatsApp</span>
                       </a>
                     </td>

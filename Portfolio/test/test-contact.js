@@ -174,7 +174,7 @@ runTest('Visitor auto-reply matches required copy and branding', () => {
   assert(template.html.includes('#FF5A1F')); // Orange button & accents
   assert(template.html.includes('#25D366')); // WhatsApp brand green button
   assert(template.html.includes('Chat on WhatsApp')); // WhatsApp button copy
-  assert(template.html.includes('final%20logo-footer.png')); // Website white logo image for dark header
+  assert(template.html.includes('final%20logo-header.png')); // Website black logo image for light header (as in Screenshot 3)
   assert(template.html.includes('Wix Studio Expert &bull; Web Designer &bull; Wix Velo')); // Subtitle
   assert(template.html.includes('max-width: 600px')); // 600px email layout
 });
