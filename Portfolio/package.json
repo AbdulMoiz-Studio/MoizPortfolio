@@ -1,0 +1,22 @@
+{
+  "name": "moiz-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website and contact form email automation for Abdul Moiz (moizstudio.me)",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "test": "node test/test-contact.js"
+  },
+  "keywords": [
+    "portfolio",
+    "wix-studio",
+    "contact-form",
+    "nodemailer"
+  ],
+  "author": "Abdul Moiz <contactwithabdulmoiz@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}

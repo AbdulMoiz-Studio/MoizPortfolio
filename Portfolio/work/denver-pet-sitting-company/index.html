@@ -791,12 +791,20 @@
                   data-aos-duration="1000"
                   data-aos-delay="300"
                 >
-                  <form action="#">
+                  <form action="#" id="main-contact-form" novalidate>
+                    <!-- Honeypot anti-spam field -->
+                    <div style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                      <label for="contact-website">Website</label>
+                      <input type="text" name="website" id="contact-website" tabindex="-1" autocomplete="off" />
+                    </div>
+
                     <div class="row">
                       <div class="col-xl-12">
                         <div class="position-relative tw-mb-7">
                           <input
                             type="text"
+                            name="firstName"
+                            id="contact-first-name"
                             class="form-control bg-transparent shadow-none tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-two-600 tw-h-18 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
                             placeholder="First Name"
                             required
@@ -807,6 +815,8 @@
                         <div class="position-relative tw-mb-7">
                           <input
                             type="email"
+                            name="email"
+                            id="contact-email"
                             class="form-control bg-transparent shadow-none tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-two-600 tw-h-18 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
                             placeholder="Email Address"
                             required
@@ -816,6 +826,8 @@
                       <div class="col-xl-12">
                         <div class="position-relative tw-mb-7">
                           <textarea
+                            name="message"
+                            id="contact-message"
                             class="form-control bg-transparent shadow-none tw-h-196-px tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-two-600 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
                             placeholder="Message"
                             required
@@ -827,10 +839,12 @@
                           <button
                             class="tw-hover-btn bg-main-two-600 text-white tw-text-xl fw-bold tw-py-4 tw-px-10 d-inline-flex justify-content-center w-100 hover-text-heading hover-bg-white tw-transition-3 tw-rounded-lg text-uppercase"
                             type="submit"
+                            id="contact-submit-btn"
                           >
                             send a message
                           </button>
                         </div>
+                        <div id="contact-status" class="contact-status-msg tw-mt-4 text-center" aria-live="polite" style="display: none;"></div>
                       </div>
                     </div>
                   </form>
@@ -983,6 +997,8 @@
     <script src="/assets/js/main.js"></script>
     <!-- cursor js -->
     <script src="/assets/js/tw-cursor.js"></script>
+    <!-- contact form automation js -->
+    <script src="/assets/js/contact.js"></script>
     <script>
       const yearEl = document.getElementById("currentYear");
       if (yearEl) yearEl.textContent = new Date().getFullYear();

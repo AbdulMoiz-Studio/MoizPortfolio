@@ -1,0 +1,108 @@
+/**
+ * Isolated Mailer Module
+ * Handles SMTP transport configuration and sending emails via Nodemailer.
+ * Can be swapped for Resend / SendGrid without modifying application logic.
+ */
+
+const nodemailer = require('nodemailer');
+const { ownerEmail, visitorEmail } = require('./emailTemplates');
+
+/**
+ * Create SMTP Transporter
+ * By default uses Gmail SMTP with App Password.
+ */
+function createTransporter() {
+  const user = process.env.SMTP_USER || 'contactwithabdulmoiz@gmail.com';
+  const pass = process.env.SMTP_PASS;
+
+  if (!pass) {
+    console.warn('[Mailer Warning] SMTP_PASS is not set in environment variables. Email sending will fail unless configured.');
+  }
+
+  return nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user,
+      pass
+    }
+  });
+}
+
+// Lazy-initialized transporter instance
+let cachedTransporter = null;
+function getTransporter() {
+  if (!cachedTransporter) {
+    cachedTransporter = createTransporter();
+  }
+  return cachedTransporter;
+}
+
+/**
+ * Verify transporter connection
+ */
+async function verifyTransport() {
+  const transporter = getTransporter();
+  return transporter.verify();
+}
+
+/**
+ * Send inquiry notification to site owner
+ * @param {Object} params
+ * @param {string} params.firstName
+ * @param {string} params.email
+ * @param {string} params.message
+ * @param {string} params.submittedAt
+ */
+async function sendOwnerNotification({ firstName, email, message, submittedAt }) {
+  const transporter = getTransporter();
+  const ownerEmailAddress = process.env.OWNER_EMAIL || 'contactwithabdulmoiz@gmail.com';
+  const fromName = process.env.FROM_NAME || 'Abdul Moiz | Moiz Studio';
+  const fromEmail = process.env.SMTP_USER || 'contactwithabdulmoiz@gmail.com';
+
+  const template = ownerEmail({ firstName, email, message, submittedAt });
+
+  return transporter.sendMail({
+    from: `"${fromName}" <${fromEmail}>`,
+    to: ownerEmailAddress,
+    replyTo: email,
+    subject: template.subject,
+    text: template.text,
+    html: template.html
+  });
+}
+
+/**
+ * Send auto-reply confirmation to the visitor
+ * @param {Object} params
+ * @param {string} params.firstName
+ * @param {string} params.email
+ * @param {string} params.message
+ */
+async function sendVisitorAutoReply({ firstName, email, message }) {
+  const transporter = getTransporter();
+  const fromName = process.env.FROM_NAME || 'Abdul Moiz | Moiz Studio';
+  const fromEmail = process.env.SMTP_USER || 'contactwithabdulmoiz@gmail.com';
+  const ownerEmailAddress = process.env.OWNER_EMAIL || 'contactwithabdulmoiz@gmail.com';
+
+  const template = visitorEmail({ firstName, message });
+
+  return transporter.sendMail({
+    from: `"${fromName}" <${fromEmail}>`,
+    to: email,
+    replyTo: ownerEmailAddress,
+    subject: template.subject,
+    text: template.text,
+    html: template.html
+  });
+}
+
+module.exports = {
+  createTransporter,
+  getTransporter,
+  verifyTransport,
+  sendOwnerNotification,
+  sendVisitorAutoReply
+};
