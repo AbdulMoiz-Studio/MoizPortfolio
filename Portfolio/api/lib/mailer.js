@@ -12,8 +12,10 @@ const { ownerEmail, visitorEmail } = require('./emailTemplates');
  * By default uses Gmail SMTP with App Password.
  */
 function createTransporter() {
-  const user = process.env.SMTP_USER || 'contactwithabdulmoiz@gmail.com';
-  const pass = process.env.SMTP_PASS;
+  const user = (process.env.SMTP_USER || 'contactwithabdulmoiz@gmail.com').trim();
+  // Strip any spaces from App Password (e.g. "abcd efgh ijkl mnop" -> "abcdefghijklmnop")
+  const rawPass = process.env.SMTP_PASS || '';
+  const pass = rawPass.replace(/\s+/g, '').trim();
 
   if (!pass) {
     console.warn('[Mailer Warning] SMTP_PASS is not set in environment variables. Email sending will fail unless configured.');
@@ -31,13 +33,8 @@ function createTransporter() {
   });
 }
 
-// Lazy-initialized transporter instance
-let cachedTransporter = null;
 function getTransporter() {
-  if (!cachedTransporter) {
-    cachedTransporter = createTransporter();
-  }
-  return cachedTransporter;
+  return createTransporter();
 }
 
 /**

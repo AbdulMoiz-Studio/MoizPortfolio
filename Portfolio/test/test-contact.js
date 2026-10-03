@@ -224,6 +224,37 @@ function createMockRes() {
     assert.strictEqual(res.headers['access-control-allow-methods'], 'POST, OPTIONS');
   });
 
+  await runAsyncTest('Handler allows https://www.moizstudio.me (with www)', async () => {
+    const req = createMockReq({ method: 'OPTIONS', origin: 'https://www.moizstudio.me' });
+    const res = createMockRes();
+    await handler(req, res);
+    assert.strictEqual(res.statusCode, 204);
+    assert.strictEqual(res.headers['access-control-allow-origin'], 'https://www.moizstudio.me');
+  });
+
+  await runAsyncTest('Handler allows Vercel preview domains (*.vercel.app)', async () => {
+    const req = createMockReq({ method: 'OPTIONS', origin: 'https://moiz-portfolio-test.vercel.app' });
+    const res = createMockRes();
+    await handler(req, res);
+    assert.strictEqual(res.statusCode, 204);
+    assert.strictEqual(res.headers['access-control-allow-origin'], 'https://moiz-portfolio-test.vercel.app');
+  });
+
+  await runAsyncTest('Handler allows null origin (local file preview / webview)', async () => {
+    const req = createMockReq({ method: 'OPTIONS', origin: 'null' });
+    const res = createMockRes();
+    await handler(req, res);
+    assert.strictEqual(res.statusCode, 204);
+  });
+
+  await runAsyncTest('Handler rejects unauthorized third-party origin with 403', async () => {
+    const req = createMockReq({ method: 'POST', origin: 'https://malicious-site.example.com' });
+    const res = createMockRes();
+    await handler(req, res);
+    assert.strictEqual(res.statusCode, 403);
+    assert.strictEqual(res.body.error, 'Origin not allowed by CORS policy.');
+  });
+
   await runAsyncTest('Handler rejects non-POST methods with 405', async () => {
     const req = createMockReq({ method: 'GET' });
     const res = createMockRes();

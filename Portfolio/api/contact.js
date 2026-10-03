@@ -8,35 +8,80 @@ const { checkRateLimit } = require('./lib/rateLimiter');
 const { sendOwnerNotification, sendVisitorAutoReply } = require('./lib/mailer');
 
 /**
+ * Check if the given origin is permitted
+ * @param {string} origin
+ * @returns {boolean}
+ */
+function isOriginAllowed(origin) {
+  // Same-origin, local file preview (null), curl, or missing origin header
+  if (!origin || origin === 'null') {
+    return true;
+  }
+
+  const clean = origin.trim().toLowerCase().replace(/\/$/, '');
+
+  // 1. Configured origins from environment variable (supports comma-separated list or '*')
+  const envOrigins = (process.env.ALLOWED_ORIGIN || '')
+    .split(',')
+    .map(o => o.trim().toLowerCase().replace(/\/$/, ''))
+    .filter(Boolean);
+
+  if (envOrigins.includes('*') || envOrigins.includes(clean)) {
+    return true;
+  }
+
+  // 2. Production domains: moizstudio.me (both apex and www, http and https)
+  if (
+    clean === 'https://moizstudio.me' ||
+    clean === 'https://www.moizstudio.me' ||
+    clean === 'http://moizstudio.me' ||
+    clean === 'http://www.moizstudio.me'
+  ) {
+    return true;
+  }
+
+  // 3. Vercel preview & production deployments (*.vercel.app)
+  if (clean.endsWith('.vercel.app')) {
+    return true;
+  }
+
+  // 4. Local development addresses (localhost, 127.0.0.1, [::1], and private LAN IPs with any port)
+  const isLocalDev =
+    /^https?:\/\/localhost(:\d+)?$/.test(clean) ||
+    /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(clean) ||
+    /^https?:\/\/\[::1\](:\d+)?$/.test(clean) ||
+    /^https?:\/\/192\.168\.\d{1,3}\.\d{1,3}(:\d+)?$/.test(clean) ||
+    /^https?:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?$/.test(clean) ||
+    /^https?:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}(:\d+)?$/.test(clean);
+
+  return isLocalDev;
+}
+
+/**
  * Configure CORS headers
  * @param {import('http').IncomingMessage} req
  * @param {import('http').ServerResponse} res
  * @returns {boolean} Whether the origin is allowed
  */
 function handleCors(req, res) {
-  const allowedOrigin = (process.env.ALLOWED_ORIGIN || 'https://moizstudio.me').trim().replace(/\/$/, '');
-  const requestOrigin = (req.headers.origin || '').trim().replace(/\/$/, '');
+  const requestOrigin = (req.headers.origin || '').trim();
+  const allowed = isOriginAllowed(requestOrigin);
 
-  const isLocalDev = Boolean(
-    requestOrigin && (
-      requestOrigin.startsWith('http://localhost') ||
-      requestOrigin.startsWith('http://127.0.0.1')
-    )
-  );
-
-  const isAllowed = !requestOrigin || requestOrigin === allowedOrigin || isLocalDev;
-
-  if (isAllowed && requestOrigin) {
-    res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-  } else if (!requestOrigin) {
-    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  if (allowed) {
+    if (requestOrigin && requestOrigin !== 'null') {
+      res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+    } else {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    }
+  } else {
+    console.warn(`[CORS Blocked] Origin not allowed: "${requestOrigin}". Allowed domains: moizstudio.me, www.moizstudio.me, *.vercel.app, and local dev.`);
   }
 
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, Accept');
   res.setHeader('Access-Control-Max-Age', '86400');
 
-  return isAllowed;
+  return allowed;
 }
 
 /**
