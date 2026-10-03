@@ -1,4 +1,5 @@
 import os
+import shutil
 
 base_template = """<!DOCTYPE html>
 <html lang="en">
@@ -486,36 +487,7 @@ base_template = """<!DOCTYPE html>
               <!-- Swiper Visuals Slider -->
               <div class="case-study-visuals-slider swiper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide case-study-visual-slide">
-                    <div class="case-study-visual-card">
-                      <img
-                        class="case-study-visual-img"
-                        src="{visual_1_img}"
-                        alt="{project_name} - Primary Website Mockup"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                  <div class="swiper-slide case-study-visual-slide">
-                    <div class="case-study-visual-card">
-                      <img
-                        class="case-study-visual-img"
-                        src="{visual_2_img}"
-                        alt="{project_name} - Responsive Mockup &amp; Details"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                  <div class="swiper-slide case-study-visual-slide">
-                    <div class="case-study-visual-card">
-                      <img
-                        class="case-study-visual-img"
-                        src="{visual_3_img}"
-                        alt="{project_name} - Interface Showcase"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
+                  {visual_slides_html}
                 </div>
 
                 <div class="visuals-slider-controls">
@@ -686,7 +658,7 @@ base_template = """<!DOCTYPE html>
                         <div class="position-relative tw-mb-7">
                           <input
                             type="text"
-                            class="form-control bg-transparent shadow-none tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-600 tw-h-18 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
+                            class="form-control bg-transparent shadow-none tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-two-600 tw-h-18 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
                             placeholder="First Name"
                             required
                           />
@@ -696,7 +668,7 @@ base_template = """<!DOCTYPE html>
                         <div class="position-relative tw-mb-7">
                           <input
                             type="email"
-                            class="form-control bg-transparent shadow-none tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-600 tw-h-18 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
+                            class="form-control bg-transparent shadow-none tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-two-600 tw-h-18 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
                             placeholder="Email Address"
                             required
                           />
@@ -705,7 +677,7 @@ base_template = """<!DOCTYPE html>
                       <div class="col-xl-12">
                         <div class="position-relative tw-mb-7">
                           <textarea
-                            class="form-control bg-transparent shadow-none tw-h-196-px tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-600 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
+                            class="form-control bg-transparent shadow-none tw-h-196-px tw-rounded-lg text-white tw-ps-7 tw-pe-13 tw-placeholder-text-neutral-100 focus-border-main-two-600 focus-tw-placeholder-text-hidden tw-placeholder-transition-2"
                             placeholder="Message"
                             required
                           ></textarea>
@@ -714,7 +686,7 @@ base_template = """<!DOCTYPE html>
                       <div class="col-xl-12">
                         <div class="contact-button">
                           <button
-                            class="tw-hover-btn bg-main-600 text-heading tw-text-xl fw-bold tw-py-4 tw-px-10 d-inline-flex justify-content-center w-100 hover-text-heading hover-bg-white tw-transition-3 tw-rounded-lg text-uppercase"
+                            class="tw-hover-btn bg-main-two-600 text-white tw-text-xl fw-bold tw-py-4 tw-px-10 d-inline-flex justify-content-center w-100 hover-text-heading hover-bg-white tw-transition-3 tw-rounded-lg text-uppercase"
                             type="submit"
                           >
                             send a message
@@ -882,94 +854,139 @@ base_template = """<!DOCTYPE html>
 
 projects_data = [
     {
-        "slug": "epic-strategy",
-        "title": "Epic Strategy | Wix Studio Strategic Business Platform",
-        "meta_desc": "Explore the Epic Strategy Wix Studio case study by Abdul Moiz. High-converting consulting and business strategy platform designed for scale and mobile speed.",
-        "project_name": "Epic Strategy",
+        "slug": "mike-nellis",
+        "title": "Mike Nellis | Wix Studio Website Design & Development",
+        "meta_desc": "Explore the Mike Nellis Wix Studio case study by Abdul Moiz. High-impact political strategist website built with a bold visual identity, responsive design, and on-page SEO.",
+        "project_name": "MIKE NELLIS",
+        "main_title": "MIKE NELLIS",
+        "subtitle": "WIX STUDIO WEBSITE DESIGN & DEVELOPMENT",
+        "main_description": "A premium, fully responsive Wix Studio website built for a political strategist, with a bold visual identity and on-page SEO.",
+        "tags": ["WIX STUDIO", "UI/UX", "RESPONSIVE DESIGN"],
         "category_badge": "WIX STUDIO CASE STUDY",
-        "hero_description": "Custom Wix Studio website designed and developed to create a modern digital presence, improve user experience and provide functionality tailored to the business.",
-        "meta_client": "Epic Strategy",
-        "meta_industry": "Strategy & Consulting",
-        "meta_platform": "Wix Studio",
-        "meta_services": "UI/UX • Web Design • Development",
-        "challenge_text": "The business needed a more modern and professional website that could clearly present its services while providing a better experience across desktop and mobile.",
-        "solution_text": "I redesigned the website with a clearer visual hierarchy and user-focused interface, then developed it in Wix Studio with responsive layouts, structured content and the required functionality.",
-        "outcome_text": "The final website delivered a more professional digital presence with improved responsive behavior, clearer content structure and a smoother overall user experience.",
-        "visual_1_img": "/assets/images/thumbs/portfolio-three-thumb1.jpg",
-        "visual_2_img": "/assets/images/thumbs/portfolio-two-thumb1.jpg",
-        "visual_3_img": "/assets/images/thumbs/portfolio-thumb1.jpg",
+        "hero_description": "A premium Wix Studio website designed and developed to build a strong digital presence, deliver a responsive experience and support on-page SEO.",
+        "meta_client": "SOPHIA",
+        "meta_industry": "POLITICAL STRATEGY",
+        "meta_platform": "WIX STUDIO",
+        "meta_services": "WIX STUDIO DEVELOPMENT",
+        "challenge_text": "The client needed an experienced Wix Studio designer who could turn their website into a premium, professional platform. It also had to work smoothly on every screen size.",
+        "solution_text": "I designed the website around the client's requirements, with a clean visual hierarchy and a confident, polished look. It was built in Wix Studio with fully responsive layouts. On-page SEO was included so the site is ready to be found on search engines.",
+        "outcome_text": "The client was happy with the final website. It looked premium, worked well across devices and achieved its purpose.",
+        "main_image": "/assets/images/work/mikenellis-main.png",
+        "visual_images": [
+            "/assets/images/work/mikenellis-main.png",
+            "/assets/images/work/mike-nellis-1.png",
+            "/assets/images/work/mikenellis-2.png"
+        ],
         "has_testimonial": True,
-        "testimonial_quote": "Working with Abdul Moiz on our Wix Studio website was seamless. From initial design to responsive optimization, the attention to detail was exceptional.",
-        "testimonial_author": "Startup Founder & Client",
-        "testimonial_role": "Strategy & Consulting Firm"
+        "testimonial_quote": "Moiz understood exactly what I wanted and delivered a website that looks premium on every device. Really happy with the result.",
+        "testimonial_author": "SOPHIA",
+        "testimonial_role": "Political Strategy"
     },
     {
-        "slug": "brand-design-identity",
-        "title": "Brand Design & Identity | Creative Studio Platform",
-        "meta_desc": "Case study for Brand Design & Identity by Abdul Moiz. Dynamic typography, smooth animations, and high-impact visual design for a modern creative studio.",
-        "project_name": "Brand Design & Identity",
-        "category_badge": "CREATIVE DIRECTION & WEB",
-        "hero_description": "Comprehensive creative website and digital identity designed to showcase visual branding, portfolio work, and establish an authentic brand presence.",
-        "meta_client": "Studio Identity",
-        "meta_industry": "Creative & Branding",
-        "meta_platform": "Wix Studio / Web",
-        "meta_services": "Branding • Art Direction • Development",
-        "challenge_text": "The client required a distinctive digital portfolio that aligned with their modern design sensibilities, replacing an outdated showcase with an immersive, high-end experience.",
-        "solution_text": "Crafted an editorial layout emphasizing strong typography, fluid interactions, structured case presentation, and seamless responsiveness across all screen dimensions.",
-        "outcome_text": "Delivered an engaging, aesthetically elevated platform that communicates brand credibility and provides a memorable experience for prospective clients.",
-        "visual_1_img": "/assets/images/thumbs/portfolio-three-thumb2.jpg",
-        "visual_2_img": "/assets/images/thumbs/portfolio-two-thumb2.jpg",
-        "visual_3_img": "/assets/images/thumbs/portfolio-thumb2.jpg",
+        "slug": "inpro-analytics",
+        "title": "Inpro Analytics | Wix Studio Design & Velo Development",
+        "meta_desc": "Explore the Inpro Analytics Wix Studio case study by Abdul Moiz. Agency-level website for data science and analytics with custom Velo careers functionality.",
+        "project_name": "INPRO ANALYTICS",
+        "main_title": "INPRO ANALYTICS",
+        "subtitle": "WIX STUDIO DESIGN & VELO DEVELOPMENT",
+        "main_description": "An agency-level Wix Studio website for a data science and analytics company, with a custom-built careers page powered by Velo.",
+        "tags": ["WIX STUDIO", "VELO DEVELOPMENT", "SEO"],
+        "category_badge": "WIX STUDIO CASE STUDY",
+        "hero_description": "An agency-level Wix Studio website with custom Velo functionality, designed and developed for a data science and analytics company.",
+        "meta_client": "MANUEL WOLFSGRUBER",
+        "meta_industry": "IT & DATA SCIENCE",
+        "meta_platform": "WIX STUDIO",
+        "meta_services": "WIX STUDIO DESIGN • VELO DEVELOPMENT",
+        "challenge_text": "Inpro Analytics is an agency of data scientists and analysts. They needed a modern, professional website that matched their expertise. They also needed a careers page with functionality beyond standard Wix features.",
+        "solution_text": "I designed an agency-level website with a clear structure and a premium look. Using Velo, I built custom functionality for the careers page. SEO was optimized so the site performs well in search.",
+        "outcome_text": "The agency now has a professional website that reflects its expertise. The Velo-powered careers page helps the team manage the hiring process more easily.",
+        "main_image": "/assets/images/work/inpro-main.png",
+        "visual_images": [
+            "/assets/images/work/inpro-main.png",
+            "/assets/images/work/inpro-1.png",
+            "/assets/images/work/inpro-2.png",
+            "/assets/images/work/inpro-3.png"
+        ],
         "has_testimonial": True,
-        "testimonial_quote": "Abdul Moiz brought our creative vision to life with precision and flair. The website is polished, responsive, and truly stands out.",
-        "testimonial_author": "Creative Director",
-        "testimonial_role": "Brand Design Studio"
+        "testimonial_quote": "Moiz delivered more than a website. The design feels like a real agency site, and the careers page works exactly the way we needed. Highly recommended.",
+        "testimonial_author": "MANUEL WOLFSGRUBER",
+        "testimonial_role": "Inpro Analytics"
     },
     {
-        "slug": "pixelcraft-studio",
-        "title": "PixelCraft Studio | Agency Portfolio & Platform",
-        "meta_desc": "PixelCraft Studio web design and development case study by Abdul Moiz. High-performing digital agency website built with modern interactive layouts.",
-        "project_name": "PixelCraft Studio",
-        "category_badge": "AGENCY WEB PLATFORM",
-        "hero_description": "Interactive agency website crafted to present multifaceted creative services, case studies, and streamlined client inquiry workflows.",
-        "meta_client": "PixelCraft Agency",
-        "meta_industry": "Digital Agency & Tech",
-        "meta_platform": "Custom CMS / Wix Studio",
-        "meta_services": "UI/UX • Interaction Design • Frontend",
-        "challenge_text": "PixelCraft needed an agency website capable of converting inbound traffic while presenting complex service offerings and case studies with clarity.",
-        "solution_text": "Engineered an intuitive site architecture with interactive modular sections, fast page transitions, and structured inquiry touchpoints.",
-        "outcome_text": "A cohesive digital presence that communicates agency expertise, accelerates client inquiries, and functions effortlessly on all devices.",
-        "visual_1_img": "/assets/images/thumbs/portfolio-three-thumb3.jpg",
-        "visual_2_img": "/assets/images/thumbs/portfolio-two-thumb3.jpg",
-        "visual_3_img": "/assets/images/thumbs/portfolio-thumb3.jpg",
+        "slug": "denver-pet-sitting-company",
+        "title": "Denver Pet Sitting Company | Wix Studio Website Design",
+        "meta_desc": "Explore the Denver Pet Sitting Company Wix Studio case study by Abdul Moiz. A playful, friendly website designed to connect with pet owners across Denver.",
+        "project_name": "DENVER PET SITTING COMPANY",
+        "main_title": "DENVER PET SITTING COMPANY",
+        "subtitle": "WIX STUDIO WEBSITE DESIGN",
+        "main_description": "A playful, friendly Wix Studio website designed for a pet sitting company, built to connect with pet owners.",
+        "tags": ["WIX STUDIO", "UI/UX", "RESPONSIVE DESIGN"],
+        "category_badge": "WIX STUDIO CASE STUDY",
+        "hero_description": "A playful, welcoming Wix Studio website designed to help a pet sitting company connect with pet owners and present its services clearly.",
+        "meta_client": "DENVER PET SITTING COMPANY",
+        "meta_industry": "PET CARE SERVICES",
+        "meta_platform": "WIX STUDIO",
+        "meta_services": "WIX STUDIO WEB DESIGN",
+        "challenge_text": "The client wanted a playful, friendly website that fits a pet sitting business. It had to feel warm to pet owners while clearly presenting the services.",
+        "solution_text": "I designed a cheerful, approachable website with a fun visual style and clear content. It was built in Wix Studio and works well on desktop and mobile.",
+        "outcome_text": "The final website has a friendly personality that matches the brand. Pet owners get an easy, enjoyable experience, and the client now has a strong online presence.",
+        "main_image": "/assets/images/work/DPS-main.png",
+        "visual_images": [
+            "/assets/images/work/DPS-main.png",
+            "/assets/images/work/dps-1.png",
+            "/assets/images/work/dps-2.png"
+        ],
         "has_testimonial": True,
-        "testimonial_quote": "Fast, responsive, and meticulous in execution. Abdul Moiz delivered a platform that surpassed our expectations and works flawlessly.",
-        "testimonial_author": "Agency Lead",
-        "testimonial_role": "PixelCraft Studio"
+        "testimonial_quote": "Loved it! Exactly the playful look we wanted for our business.",
+        "testimonial_author": "OWNER",
+        "testimonial_role": "Pet Sitting Company"
     },
     {
-        "slug": "creative-studio-ecommerce",
-        "title": "Creative Studio | Modern eCommerce Website",
-        "meta_desc": "Creative Studio modern eCommerce website case study by Abdul Moiz. Streamlined shopping experience with optimized mobile checkout and product displays.",
-        "project_name": "Creative Studio",
-        "category_badge": "ECOMMERCE CASE STUDY",
-        "hero_description": "Modern eCommerce platform engineered for smooth product discovery, intuitive navigation, and high-converting checkout experiences.",
-        "meta_client": "Creative Studio Store",
-        "meta_industry": "eCommerce & Lifestyle",
-        "meta_platform": "eCommerce / Web",
-        "meta_services": "Store Architecture • UI/UX • Web Development",
-        "challenge_text": "The store required a complete digital overhaul to improve catalogue browsing, decrease friction in the buying journey, and ensure mobile shopping was effortless.",
-        "solution_text": "Developed a streamlined eCommerce experience featuring clean product categorization, mobile-first product cards, and optimized payment and contact touchpoints.",
-        "outcome_text": "A modern, responsive online store that elevates product presentation, simplifies customer checkout, and provides a polished brand impression.",
-        "visual_1_img": "/assets/images/thumbs/portfolio-three-thumb4.jpg",
-        "visual_2_img": "/assets/images/thumbs/portfolio-two-thumb4.jpg",
-        "visual_3_img": "/assets/images/thumbs/portfolio-thumb4.jpg",
-        "has_testimonial": False,
-        "testimonial_quote": "",
-        "testimonial_author": "",
-        "testimonial_role": ""
+        "slug": "vanityxo",
+        "title": "VanityXo | Wix Studio Design & Custom Dashboards",
+        "meta_desc": "Explore the VanityXo Wix Studio case study by Abdul Moiz. Complete custom platform with user dashboards, login and sign-up system, and search optimization.",
+        "project_name": "VANITYXO",
+        "main_title": "VANITYXO",
+        "subtitle": "WIX STUDIO DESIGN & CUSTOM DASHBOARDS",
+        "main_description": "A complete Wix Studio website with custom user dashboards, a login and sign-up system, and SEO for a growing beauty brand.",
+        "tags": ["WIX STUDIO", "CUSTOM DASHBOARD", "SEO"],
+        "category_badge": "WIX STUDIO CASE STUDY",
+        "hero_description": "A complete Wix Studio build with custom dashboards, a login and sign-up system, and SEO for a large beauty and skincare company.",
+        "meta_client": "VANITYXO",
+        "meta_industry": "WIRELESS DEALER PLATFORM",
+        "meta_platform": "WIX STUDIO",
+        "meta_services": "WEB DESIGN • CUSTOM DASHBOARDS • SEO",
+        "challenge_text": "VanityXo needed more than a good-looking website. They needed a complete platform where users could sign up, log in and manage their own accounts, all with a design that fits a large, established brand.",
+        "solution_text": "I designed and built the full website in Wix Studio, along with custom dashboards and a complete login and sign-up system. On-page SEO was also set up to improve visibility.",
+        "outcome_text": "The client got a polished, fully functional platform. Users can create accounts and use their dashboards smoothly. The site is scalable and ready for the brand's growth.",
+        "main_image": "/assets/images/work/vanity-main.png",
+        "visual_images": [
+            "/assets/images/work/vanity-main.png",
+            "/assets/images/work/vanity-1.png",
+            "/assets/images/work/vanity-2.png",
+            "/assets/images/work/vanity-3.png"
+        ],
+        "has_testimonial": True,
+        "testimonial_quote": "We needed a lot more than a regular website: dashboards, login, sign-up, SEO, everything. Moiz handled it all professionally and delivered on time. Great experience working with him.",
+        "testimonial_author": "FOUNDER",
+        "testimonial_role": "VanityXo"
     }
 ]
+
+def make_visual_slides(project_name, visual_images):
+    slides = []
+    for idx, img_path in enumerate(visual_images, 1):
+        slides.append(f"""                  <div class="swiper-slide case-study-visual-slide">
+                    <div class="case-study-visual-card">
+                      <img
+                        class="case-study-visual-img"
+                        src="{img_path}"
+                        alt="{project_name} - Visual Mockup {idx}"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>""")
+    return "\n".join(slides)
 
 def make_more_cards(current_slug):
     other_projects = [p for p in projects_data if p["slug"] != current_slug]
@@ -986,12 +1003,12 @@ def make_more_cards(current_slug):
                         <a href="/work/{p["slug"]}" class="text-heading hover-text-main-two-600">{p["project_name"]}</a>
                       </h3>
                       <p class="tw-text-sm text-neutral-600 tw-mb-4" style="line-height: 1.6;">
-                        {p["hero_description"][:130]}...
+                        {p["main_description"][:130]}...
                       </p>
                     </div>
                     <div>
                       <a href="/work/{p["slug"]}" class="d-block cursor-hide tw-rounded-lg overflow-hidden tw-mb-4" style="box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                        <img class="w-100 tw-rounded-lg tw-transition-3 hover-scale-105" src="{p["visual_1_img"]}" alt="{p["project_name"]}" style="aspect-ratio: 16/10; object-fit: cover;" />
+                        <img class="w-100 tw-rounded-lg tw-transition-3 hover-scale-105" src="{p["main_image"]}" alt="{p["project_name"]}" style="aspect-ratio: 16/10; object-fit: cover;" />
                       </a>
                       <a class="fw-bold text-heading hover-text-main-two-600 tw-text-xs text-uppercase d-inline-flex align-items-center" href="/work/{p["slug"]}">
                         VIEW CASE STUDY <i class="ph-bold ph-arrow-right tw-ms-1"></i>
@@ -1002,7 +1019,7 @@ def make_more_cards(current_slug):
     return html
 
 def make_testimonial_block(p):
-    if not p["has_testimonial"]:
+    if not p.get("has_testimonial", True):
         return ""
     return f"""
           <!-- 7. Client Testimonial Start -->
@@ -1041,10 +1058,24 @@ def make_testimonial_block(p):
 work_dir = r"d:\Moiz Profiles\Portfolio\work"
 os.makedirs(work_dir, exist_ok=True)
 
+# 1. Clean up old obsolete project files and directories
+old_slugs = ["brand-design-identity", "creative-studio-ecommerce", "epic-strategy", "pixelcraft-studio"]
+for old in old_slugs:
+    old_file = os.path.join(work_dir, f"{old}.html")
+    if os.path.exists(old_file):
+        os.remove(old_file)
+        print(f"Removed old file: {old_file}")
+    old_subdir = os.path.join(work_dir, old)
+    if os.path.exists(old_subdir):
+        shutil.rmtree(old_subdir)
+        print(f"Removed old dir: {old_subdir}")
+
+# 2. Generate all new project pages
 for p in projects_data:
     slug = p["slug"]
     t_block = make_testimonial_block(p)
     more_cards = make_more_cards(slug)
+    visual_slides = make_visual_slides(p["project_name"], p["visual_images"])
     
     html_content = base_template.format(
         title=p["title"],
@@ -1059,9 +1090,7 @@ for p in projects_data:
         challenge_text=p["challenge_text"],
         solution_text=p["solution_text"],
         outcome_text=p["outcome_text"],
-        visual_1_img=p["visual_1_img"],
-        visual_2_img=p["visual_2_img"],
-        visual_3_img=p["visual_3_img"],
+        visual_slides_html=visual_slides,
         testimonial_block=t_block,
         more_projects_cards=more_cards
     )
@@ -1077,5 +1106,7 @@ for p in projects_data:
     nested_path = os.path.join(sub_dir, "index.html")
     with open(nested_path, "w", encoding="utf-8") as f:
         f.write(html_content)
+    
+    print(f"Generated work page: {slug}")
 
-print("Generated all 4 work detail pages in work/ directory successfully!")
+print("All 4 work detail pages generated successfully!")
