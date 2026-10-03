@@ -167,14 +167,14 @@ runTest('Visitor auto-reply matches required copy and branding', () => {
   assert(template.text.includes('2. I\'ll get back to you within 24 hours with my thoughts and next steps.'));
   assert(template.text.includes('"Can you help redesign my site?"'));
   assert(template.text.includes('Chat on WhatsApp: https://api.whatsapp.com/send?phone=923098828483'));
-  assert(template.text.includes('https://www.moizstudio.me/work'));
+  assert(template.text.includes('https://www.moizstudio.me/#work'));
   assert(template.text.includes('Wix Studio Expert & Web Designer'));
 
   // HTML checks
   assert(template.html.includes('#FF5A1F')); // Orange button & accents
   assert(template.html.includes('#25D366')); // WhatsApp brand green button
   assert(template.html.includes('Chat on WhatsApp')); // WhatsApp button copy
-  assert(template.html.includes('final%20logo-header.png')); // Website header logo image
+  assert(template.html.includes('final%20logo-footer.png')); // Website white logo image for dark header
   assert(template.html.includes('Wix Studio Expert &bull; Web Designer &bull; Wix Velo')); // Subtitle
   assert(template.html.includes('max-width: 600px')); // 600px email layout
 });
