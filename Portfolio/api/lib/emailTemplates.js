@@ -64,7 +64,7 @@ Reply to this email to respond directly to ${cleanName}.
               <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td>
-                    <span style="font-size: 18px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-transform: uppercase;">MOIZ STUDIO</span>
+                    <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio" width="140" style="max-width: 140px; height: auto; display: block; border: 0;" />
                   </td>
                   <td align="right">
                     <span style="display: inline-block; padding: 4px 10px; background-color: #FF5A1F; color: #ffffff; font-size: 11px; font-weight: bold; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px;">NEW INQUIRY</span>
@@ -173,7 +173,7 @@ To help me understand your project faster, feel free to reply to this email with
 - What you'd like to achieve with the new website
 - Your preferred timeline
 
-If it's urgent, you can message me directly on WhatsApp: https://api.whatsapp.com/send?phone=923098828483
+If it's urgent, Chat on WhatsApp: https://api.whatsapp.com/send?phone=923098828483
 
 In the meantime, you can explore my recent work here: https://www.moizstudio.me/work
 
@@ -205,10 +205,10 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
           <!-- Header -->
           <tr>
             <td style="background-color: #0d0d0d; padding: 28px 30px; text-align: center;">
-              <h2 style="margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 2px; color: #ffffff; text-transform: uppercase;">
-                MOIZ STUDIO
-              </h2>
-              <p style="margin: 6px 0 0 0; font-size: 12px; color: #a1a1aa; letter-spacing: 1px; text-transform: uppercase;">
+              <a href="https://www.moizstudio.me" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">
+                <img src="https://www.moizstudio.me/assets/images/thumbs/final%20logo-header.png" alt="Moiz Studio Logo" width="180" style="max-width: 180px; width: 100%; height: auto; display: block; margin: 0 auto; border: 0;" />
+              </a>
+              <p style="margin: 8px 0 0 0; font-size: 11px; color: #a1a1aa; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;">
                 Wix Studio Expert &bull; Web Designer &bull; Wix Velo
               </p>
             </td>
@@ -252,17 +252,26 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
                 <li>Your preferred timeline</li>
               </ul>
 
-              <!-- WhatsApp Note -->
-              <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 14px 18px; margin-bottom: 28px;">
-                <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #166534;">
-                  <strong>Need a fast answer?</strong> If it's urgent, you can message me directly on
-                  <a href="https://api.whatsapp.com/send?phone=923098828483" target="_blank" rel="noopener noreferrer" style="color: #15803d; font-weight: 700; text-decoration: underline;">WhatsApp: (+92) 3098828483</a>
+              <!-- WhatsApp Action Button Box -->
+              <div style="background-color: #09090b; border: 1px solid #27272a; border-radius: 8px; padding: 20px 24px; margin-bottom: 28px; text-align: center;">
+                <p style="margin: 0 0 14px 0; font-size: 14px; line-height: 1.5; color: #e4e4e7;">
+                  Need an urgent answer? Let's talk directly:
                 </p>
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                  <tr>
+                    <td align="center" style="background-color: #25D366; border-radius: 6px; padding: 12px 28px;">
+                      <a href="https://api.whatsapp.com/send?phone=923098828483" target="_blank" rel="noopener noreferrer" style="color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; letter-spacing: 0.3px;">
+                        <img src="https://www.moizstudio.me/assets/images/icons/whatsapp.png" width="18" height="18" alt="WhatsApp" style="vertical-align: middle; margin-right: 8px; display: inline-block; border: 0;" />
+                        Chat on WhatsApp
+                      </a>
+                    </td>
+                  </tr>
+                </table>
               </div>
 
-              <!-- Lime-Green CTA Button -->
+              <!-- Orange CTA Button: View My Work -->
               <div style="text-align: center; margin-bottom: 32px;">
-                <a href="https://www.moizstudio.me/work" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #C8FF00; color: #0d0d0d; font-weight: 800; text-decoration: none; padding: 14px 32px; border-radius: 6px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <a href="https://www.moizstudio.me/work" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #FF5A1F; color: #ffffff; font-weight: 800; text-decoration: none; padding: 14px 34px; border-radius: 6px; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(255, 90, 31, 0.25);">
                   View My Work &rarr;
                 </a>
               </div>
