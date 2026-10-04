@@ -7,10 +7,10 @@ Official portfolio website for **Abdul Moiz** — Wix Studio Expert, Web Designe
 ## Features
 - **Modern Responsive Design**: Custom HTML5, Vanilla CSS, and JavaScript.
 - **Interactive Work Case Studies**:
-  1. [Mike Nellis](https://www.mikenellis.com/) — Political Strategy Website
-  2. [Inpro Analytics](https://www.inpro-analytics.at/) — Data & Analytics Platform
-  3. [Denver Pet Sitting Company](https://www.denverpetsittingcompany.com/) — Pet Care & Services Platform
-  4. [VanityXo](https://vanityxo.com/) — Wireless Dealer Platform
+  1. [Mike Nellis](https://www.mikenellis.com/) — Personal Brand Website
+  2. [Inpro Analytics](https://www.inpro-analytics.at/) — Technology Platform
+  3. [Denver Pet Sitting Company](https://www.denverpetsittingcompany.com/) — Pet Care Platform
+  4. [VanityXo](https://vanityxo.com/) — Business Platform
 - **Testimonials Slider**: Authentic client reviews for all 4 featured projects on the main page and dedicated case study detail pages.
 - **Dual Email Contact Form Automation**:
   - Immediate inquiry delivery to the site owner (`contactwithabdulmoiz@gmail.com`) with visitor `Reply-To`.

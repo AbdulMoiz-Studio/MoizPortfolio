@@ -317,13 +317,18 @@
         </button>
       `;
 
-      // Distinct industries list
-      const industryList = [
-        { name: "Political Strategy", slug: "political-strategy" },
-        { name: "IT & Data Science", slug: "it-data-science" },
-        { name: "Pet Care", slug: "pet-care" },
-        { name: "Wireless Dealer Platform", slug: "wireless-dealer-platform" }
-      ];
+      // Distinct industries list generated dynamically from active projects (only with count > 0)
+      const seenSlugs = new Set();
+      const industryList = [];
+      projects.forEach(p => {
+        if (p.industry && p.industrySlug && !seenSlugs.has(p.industrySlug)) {
+          seenSlugs.add(p.industrySlug);
+          const count = industriesMap[p.industrySlug] || 0;
+          if (count > 0) {
+            industryList.push({ name: p.industry, slug: p.industrySlug });
+          }
+        }
+      });
 
       industryList.forEach(ind => {
         const count = industriesMap[ind.slug] || 0;
@@ -466,8 +471,22 @@
     const indParam = params.get("industry");
     const srvParam = params.get("service");
 
-    if (indParam && ["political-strategy", "it-data-science", "pet-care", "wireless-dealer-platform"].includes(indParam)) {
-      activeIndustry = indParam;
+    // Backward compatibility mapping for legacy industry slugs
+    const LEGACY_INDUSTRY_SLUG_MAP = {
+      "political-strategy": "personal-brand",
+      "it-data-science": "technology",
+      "wireless-dealer-platform": "business-platform",
+      "pet-care-services": "pet-care"
+    };
+
+    if (indParam) {
+      const resolvedSlug = LEGACY_INDUSTRY_SLUG_MAP[indParam] || indParam;
+      const validSlugs = projects.map(p => p.industrySlug);
+      if (validSlugs.includes(resolvedSlug)) {
+        activeIndustry = resolvedSlug;
+      } else {
+        activeIndustry = null;
+      }
     }
 
     if (srvParam) {

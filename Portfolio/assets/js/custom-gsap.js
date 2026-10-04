@@ -255,41 +255,50 @@
       }, 700);
     });
 
-    // 5. ScrollSpy with ScrollTrigger: sync URL & active nav as user scrolls
-    const sectionList = [
-      { id: "about", path: "/about" },
-      { id: "services", path: "/services" },
-      { id: "work", path: "/work" },
-      { id: "process", path: "/process" },
-      { id: "testimonials", path: "/testimonials" },
-      { id: "contact", path: "/contact" }
-    ];
+    // 5. ScrollSpy with ScrollTrigger: sync URL & active nav as user scrolls on homepage only
+    const currentNormPath = (window.location.pathname || "/").replace(/\/$/, "");
+    const isDedicatedSubpage = currentNormPath === "/work" || currentNormPath.startsWith("/work/");
 
-    sectionList.forEach((item) => {
-      const el = document.getElementById(item.id);
-      if (!el) return;
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 45%",
-        end: "bottom 45%",
-        onEnter: () => syncScrollSection(item.path),
-        onEnterBack: () => syncScrollSection(item.path)
-      });
-    });
+    if (!isDedicatedSubpage) {
+      const sectionList = [
+        { id: "about", path: "/about" },
+        { id: "services", path: "/services" },
+        { id: "work", path: "/work" },
+        { id: "process", path: "/process" },
+        { id: "testimonials", path: "/testimonials" },
+        { id: "contact", path: "/contact" }
+      ];
 
-    // Top hero area trigger to reset URL to "/"
-    const bannerArea = document.querySelector(".banner-three-area");
-    if (bannerArea) {
-      ScrollTrigger.create({
-        trigger: bannerArea,
-        start: "top top",
-        end: "bottom 50%",
-        onEnterBack: () => syncScrollSection("/")
+      sectionList.forEach((item) => {
+        const el = document.getElementById(item.id);
+        if (!el) return;
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 45%",
+          end: "bottom 45%",
+          onEnter: () => syncScrollSection(item.path),
+          onEnterBack: () => syncScrollSection(item.path)
+        });
       });
+
+      // Top hero area trigger to reset URL to "/"
+      const bannerArea = document.querySelector(".banner-three-area");
+      if (bannerArea) {
+        ScrollTrigger.create({
+          trigger: bannerArea,
+          start: "top top",
+          end: "bottom 50%",
+          onEnterBack: () => syncScrollSection("/")
+        });
+      }
     }
 
     function syncScrollSection(path) {
       if (isAutoScrolling) return;
+      const currentNorm = (window.location.pathname || "/").replace(/\/$/, "");
+      if (currentNorm === "/work" || currentNorm.startsWith("/work/")) {
+        return; // Preserve /work and /work/* URLs at all times
+      }
       const current = getCleanPath();
       if (current !== path) {
         if (window.history && window.history.replaceState) {
