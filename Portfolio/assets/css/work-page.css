@@ -423,14 +423,26 @@
 /* Sticky Filter Sidebar */
 .work-sidebar-col {
   position: relative;
-  align-self: flex-start;
+  align-self: stretch !important;
+  height: auto !important;
 }
 
 .work-sidebar-wrap {
   position: -webkit-sticky !important;
   position: sticky !important;
-  top: 110px !important;
-  z-index: 20;
+  top: 90px !important;
+  z-index: 25;
+}
+
+@media (max-height: 820px) {
+  .work-sidebar-wrap {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .work-sidebar-wrap::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .work-filter-card {
