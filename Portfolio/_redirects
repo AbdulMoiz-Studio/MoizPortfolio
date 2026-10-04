@@ -2,7 +2,7 @@
 /work/:slug      /work/:slug.html  200
 /about         /index.html   200
 /services      /index.html   200
-/work          /index.html   200
+/work          /work/index.html 200
 /process       /index.html   200
 /testimonials  /index.html   200
 /contact       /index.html   200

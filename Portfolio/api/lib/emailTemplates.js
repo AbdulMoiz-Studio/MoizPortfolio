@@ -190,7 +190,7 @@ To help me understand your project faster, feel free to reply to this email with
 
 If it's urgent, Chat on WhatsApp: https://api.whatsapp.com/send?phone=923098828483
 
-In the meantime, you can explore my recent work here: https://www.moizstudio.me/#work
+In the meantime, you can explore my recent work here: https://www.moizstudio.me/work
 
 Looking forward to working with you.
 
@@ -333,7 +333,7 @@ moizstudio.me | contactwithabdulmoiz@gmail.com
                 <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
                   <tr>
                     <td align="center" style="background-color: #FF5A1F; background-image: linear-gradient(#FF5A1F, #FF5A1F); border-radius: 6px; padding: 14px 36px; border: 1px solid #FF5A1F;">
-                      <a href="https://www.moizstudio.me/#work" target="_blank" rel="noopener noreferrer" class="btn-white-text" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-weight: 800; text-decoration: none; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; display: inline-block;">
+                      <a href="https://www.moizstudio.me/work" target="_blank" rel="noopener noreferrer" class="btn-white-text" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-weight: 800; text-decoration: none; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; display: inline-block;">
                         <span class="btn-white-text" style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-weight: 800; font-size: 14px; text-decoration: none;">VIEW MY WORK &rarr;</span>
                       </a>
                     </td>

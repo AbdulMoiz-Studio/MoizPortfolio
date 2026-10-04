@@ -24,7 +24,7 @@
     },
     {
       "source": "/work",
-      "destination": "/index.html"
+      "destination": "/work/index.html"
     },
     {
       "source": "/process",

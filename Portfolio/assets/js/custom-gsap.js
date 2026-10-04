@@ -49,7 +49,6 @@
   const sectionRouteMap = {
     about: "/about",
     services: "/services",
-    work: "/work",
     process: "/process",
     testimonials: "/testimonials",
     contact: "/contact"
@@ -58,7 +57,6 @@
   const routeSectionMap = {
     "/about": "#about",
     "/services": "#services",
-    "/work": "#work",
     "/process": "#process",
     "/testimonials": "#testimonials",
     "/contact": "#contact"
@@ -81,7 +79,7 @@
   function updateActiveNav(path) {
     $(".main-menu a, .tw-main-menu-mobile a").removeClass("active-nav-link text-main-two-600");
     if (!path || path === "/") return;
-    if (path.startsWith("/work/") || path.startsWith("/projects/")) {
+    if (path === "/work" || path.startsWith("/work") || path.startsWith("/projects/")) {
       $(".main-menu a, .tw-main-menu-mobile a").each(function () {
         const sec = $(this).attr("data-section") || "";
         const href = $(this).attr("href") || "";

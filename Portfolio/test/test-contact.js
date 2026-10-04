@@ -167,7 +167,7 @@ runTest('Visitor auto-reply matches required copy and branding', () => {
   assert(template.text.includes('2. I\'ll get back to you within 24 hours with my thoughts and next steps.'));
   assert(template.text.includes('"Can you help redesign my site?"'));
   assert(template.text.includes('Chat on WhatsApp: https://api.whatsapp.com/send?phone=923098828483'));
-  assert(template.text.includes('https://www.moizstudio.me/#work'));
+  assert(template.text.includes('https://www.moizstudio.me/work'));
   assert(template.text.includes('Wix Studio Expert & Web Designer'));
 
   // HTML checks

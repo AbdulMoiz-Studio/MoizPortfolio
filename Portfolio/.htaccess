@@ -16,5 +16,5 @@
   # Route sections to index.html
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(about|services|work|process|testimonials|contact)/?$ index.html [L,QSA]
+  RewriteRule ^(about|services|process|testimonials|contact)/?$ index.html [L,QSA]
 </IfModule>
