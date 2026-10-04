@@ -1,8 +1,8 @@
 /* ==========================================================================
    WORK PAGE STYLES - DEDICATED WORKS PAGE
    Reuses existing tokens from main.css:
-   --heading-font, --body-font, --main-600 (#c8ff00), --main-two-600 (#ff5a1f),
-   existing radii, borders, transitions and typography.
+   Brand Colors: Orange (#FF5A1F / --main-two-600), Black (#09090b), White (#ffffff)
+   No green colors. Clean agency layout matching reference.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -10,7 +10,7 @@
    -------------------------------------------------------------------------- */
 .work-hero-area {
   padding-top: 140px;
-  padding-bottom: 60px;
+  padding-bottom: 50px;
   position: relative;
   background-color: #09090b;
 }
@@ -18,7 +18,7 @@
 @media (max-width: 991px) {
   .work-hero-area {
     padding-top: 105px;
-    padding-bottom: 40px;
+    padding-bottom: 36px;
   }
 }
 
@@ -41,7 +41,7 @@
 }
 
 .work-breadcrumb a:hover {
-  color: hsl(var(--main-two-600));
+  color: #FF5A1F;
 }
 
 .work-breadcrumb .divider {
@@ -50,7 +50,7 @@
 }
 
 .work-breadcrumb .active {
-  color: hsl(var(--main-two-600));
+  color: #FF5A1F;
 }
 
 .work-hero-title {
@@ -68,7 +68,7 @@
   font-family: var(--heading-font);
   font-style: italic;
   font-weight: 800;
-  color: hsl(var(--main-two-600));
+  color: #FF5A1F;
   text-shadow: 0 0 35px rgba(255, 90, 31, 0.25);
 }
 
@@ -91,8 +91,8 @@
 }
 
 .work-stats-avatar {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: #18181b;
   border: 2px solid #09090b;
@@ -126,65 +126,52 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: rgba(200, 255, 0, 0.15);
-  color: hsl(var(--main-600));
-  font-size: 11px;
+  background: rgba(255, 90, 31, 0.15);
+  color: #FF5A1F;
+  font-size: 12px;
   margin-left: 2px;
 }
 
-/* Hero Primary Button (Lime Green with Arrow Block) */
-.work-hero-btn {
+/* Hero Button: Orange Button with sliding circle-dot animation */
+.work-hero-action-btn {
   display: inline-flex;
   align-items: center;
-  background-color: hsl(var(--main-600));
-  color: #09090b;
+  gap: 10px;
+  background-color: #FF5A1F;
+  color: #ffffff !important;
   font-family: var(--body-font);
   font-weight: 700;
   font-size: 15px;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  border-radius: 9999px;
-  padding: 6px 24px 6px 6px;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  padding: 16px 32px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(200, 255, 0, 0.25);
-  border: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(255, 90, 31, 0.25);
+  border: none;
 }
 
-.work-hero-btn:hover {
-  background-color: #d7ff33;
-  color: #000000;
+.work-hero-action-btn:hover {
+  color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 26px rgba(200, 255, 0, 0.4);
+  box-shadow: 0 12px 30px rgba(255, 90, 31, 0.35);
 }
 
-.work-hero-btn .btn-arrow-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #09090b;
-  color: hsl(var(--main-600));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.work-hero-action-btn .btn-arrow-icon {
   font-size: 18px;
-  margin-right: 14px;
-  transition: transform 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
-.work-hero-btn:hover .btn-arrow-icon {
-  transform: rotate(45deg);
-  background: #000000;
-}
-
-.work-hero-btn .btn-count {
-  color: rgba(9, 9, 11, 0.65);
-  font-weight: 600;
-  margin-left: 4px;
+.work-hero-action-btn:hover .btn-arrow-icon {
+  transform: translate(3px, 3px);
 }
 
 /* --------------------------------------------------------------------------
@@ -279,9 +266,9 @@
 }
 
 .work-pill-accent {
-  background: rgba(255, 90, 31, 0.08);
-  color: hsl(var(--main-two-600));
-  border-color: rgba(255, 90, 31, 0.2);
+  background: rgba(255, 90, 31, 0.1);
+  color: #FF5A1F;
+  border-color: rgba(255, 90, 31, 0.25);
 }
 
 .work-slide-desc {
@@ -324,7 +311,7 @@
   left: 0;
   height: 100%;
   width: 0%;
-  background: hsl(var(--main-two-600));
+  background: #FF5A1F;
   border-radius: 9999px;
   transition: width 0.08s linear;
 }
@@ -334,73 +321,67 @@
 }
 
 /* --------------------------------------------------------------------------
-   Trusted-By / Industries Strip
+   Trusted-By / Industries Strip (Matching Reference Screenshot 2)
    -------------------------------------------------------------------------- */
 .work-trusted-strip-area {
-  padding-top: 20px;
+  padding-top: 30px;
   padding-bottom: 80px;
+  background-color: #09090b;
 }
 
-.work-trusted-box {
-  position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  padding: 34px 28px 28px 28px;
-  background: rgba(255, 255, 255, 0.015);
-}
-
-.work-trusted-label {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #09090b;
-  padding: 2px 20px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+.work-trusted-intro {
+  text-align: center;
   color: #a1a1aa;
-  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  margin-bottom: 18px;
 }
 
-.work-trusted-row {
+.work-trusted-pill-box {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 16px 40px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 20px;
 }
 
 .work-trusted-item {
-  flex: 1 1 140px;
-  max-width: 180px;
-  min-height: 44px;
+  flex: 1 1 130px;
+  max-width: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
-  opacity: 0.65;
-  filter: grayscale(100%);
-  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+  opacity: 0.75;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .work-trusted-item:hover {
   opacity: 1;
-  filter: grayscale(0%);
   transform: translateY(-2px);
 }
 
 .work-trusted-item img {
   max-width: 100%;
-  max-height: 38px;
+  max-height: 32px;
   width: auto;
   height: auto;
   object-fit: contain;
 }
 
+@media (max-width: 991px) {
+  .work-trusted-pill-box {
+    border-radius: 20px;
+    padding: 20px;
+  }
+}
+
 @media (max-width: 767px) {
-  .work-trusted-row {
+  .work-trusted-pill-box {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
@@ -414,8 +395,8 @@
    Projects Section (#projects)
    -------------------------------------------------------------------------- */
 .work-projects-section {
-  padding-top: 40px;
-  padding-bottom: 120px;
+  padding-top: 30px;
+  padding-bottom: 100px;
   position: relative;
   background-color: #09090b;
 }
@@ -436,14 +417,20 @@
 .work-section-title em,
 .work-section-title .title-accent {
   font-style: italic;
-  color: hsl(var(--main-600));
+  color: #FF5A1F !important; /* Orange accent */
 }
 
 /* Sticky Filter Sidebar */
+.work-sidebar-col {
+  position: relative;
+  align-self: flex-start;
+}
+
 .work-sidebar-wrap {
-  position: sticky;
-  top: 100px;
-  align-self: start;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 110px !important;
+  z-index: 20;
 }
 
 .work-filter-card {
@@ -485,7 +472,7 @@
 
 .work-accordion-trigger:hover,
 .work-accordion-trigger:focus-visible {
-  color: hsl(var(--main-600));
+  color: #FF5A1F;
 }
 
 .work-accordion-trigger i {
@@ -496,7 +483,7 @@
 
 .work-accordion-trigger[aria-expanded="true"] i {
   transform: rotate(180deg);
-  color: hsl(var(--main-600));
+  color: #FF5A1F;
 }
 
 .work-accordion-content {
@@ -520,9 +507,9 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 8px 14px;
+  padding: 9px 14px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 9999px;
   color: #d4d4d8;
   font-size: 13px;
@@ -531,20 +518,22 @@
   cursor: pointer;
   transition: all 0.2s ease;
   outline: none;
+  box-shadow: none !important;
 }
 
 .work-filter-chip:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
+/* Active Filter Chip: Clean White Border, NO green glow */
 .work-filter-chip.is-active {
-  background: hsl(var(--main-600));
-  border-color: hsl(var(--main-600));
-  color: #09090b;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid #ffffff !important;
+  color: #ffffff !important;
   font-weight: 700;
-  box-shadow: 0 4px 14px rgba(200, 255, 0, 0.25);
+  box-shadow: none !important;
 }
 
 .work-filter-chip .chip-count {
@@ -558,56 +547,58 @@
 }
 
 .work-filter-chip.is-active .chip-count {
-  background: rgba(9, 9, 11, 0.2);
+  background: #ffffff;
   color: #09090b;
 }
 
-/* Sidebar WhatsApp "Book a Call" Button */
+/* Sidebar WhatsApp "Book a Call" Button: Orange with slide animation */
 .work-sidebar-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   width: 100%;
-  background: hsl(var(--main-600));
-  color: #09090b;
+  background-color: #FF5A1F;
+  color: #ffffff !important;
   font-family: var(--body-font);
   font-weight: 700;
   font-size: 15px;
-  letter-spacing: 0.3px;
-  border-radius: 12px;
-  padding: 14px 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  padding: 16px 24px;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(200, 255, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 8px 24px rgba(255, 90, 31, 0.25);
+  border: none;
 }
 
 .work-sidebar-btn:hover {
-  background: #d7ff33;
-  color: #000000;
+  color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 26px rgba(200, 255, 0, 0.35);
+  box-shadow: 0 12px 30px rgba(255, 90, 31, 0.35);
 }
 
 .work-sidebar-btn .sidebar-btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
   font-size: 18px;
   transition: transform 0.3s ease;
 }
 
 .work-sidebar-btn:hover .sidebar-btn-icon {
-  transform: rotate(45deg);
+  transform: translate(3px, -3px);
 }
 
 /* --------------------------------------------------------------------------
-   Projects 2-Column Grid
+   Projects 2-Column Grid (Equal Heights)
    -------------------------------------------------------------------------- */
 .work-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
+  align-items: stretch;
 }
 
 @media (max-width: 767px) {
@@ -617,15 +608,22 @@
   }
 }
 
+.work-card-wrap {
+  display: flex;
+  height: 100%;
+}
+
 .work-card {
   display: flex;
   flex-direction: column;
-  background: #141417;
+  height: 100%;
+  width: 100%;
+  background: #121215;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   overflow: hidden;
   text-decoration: none;
-  color: inherit;
+  color: #ffffff !important;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
               box-shadow 0.35s ease,
               border-color 0.35s ease;
@@ -633,10 +631,13 @@
   position: relative;
 }
 
-.work-card:hover {
+.work-card:hover,
+.work-card:focus {
   transform: translateY(-6px);
-  border-color: rgba(255, 90, 31, 0.4);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 90, 31, 0.12);
+  border-color: rgba(255, 90, 31, 0.45);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 90, 31, 0.15);
+  color: #ffffff !important;
+  text-decoration: none;
 }
 
 .work-card-media {
@@ -651,6 +652,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -663,6 +665,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  justify-content: space-between;
 }
 
 .work-card-title-wrap {
@@ -670,29 +673,31 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .work-card-title {
   font-family: var(--heading-font);
   font-size: 22px;
   font-weight: 700;
-  color: #ffffff;
+  color: #ffffff !important;
   margin-bottom: 0;
   line-height: 1.25;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
+  text-transform: uppercase;
 }
 
+/* Card hover title turns ORANGE - Never blue! */
 .work-card:hover .work-card-title {
-  color: hsl(var(--main-two-600));
+  color: #FF5A1F !important;
 }
 
 .work-card-arrow {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #f4f4f5;
   display: inline-flex;
   align-items: center;
@@ -703,8 +708,8 @@
 }
 
 .work-card:hover .work-card-arrow {
-  background: hsl(var(--main-two-600));
-  border-color: hsl(var(--main-two-600));
+  background: #FF5A1F;
+  border-color: #FF5A1F;
   color: #ffffff;
   transform: translate(3px, -3px);
 }
@@ -713,7 +718,7 @@
   font-size: 14px;
   color: #a1a1aa;
   line-height: 1.55;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   flex-grow: 1;
 }
 
@@ -728,18 +733,18 @@
 .work-card-pill {
   font-size: 11px;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 4px 11px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #d4d4d8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e4e7;
   letter-spacing: 0.2px;
 }
 
 .work-card-pill.pill-industry {
-  background: rgba(200, 255, 0, 0.08);
-  border-color: rgba(200, 255, 0, 0.2);
-  color: hsl(var(--main-600));
+  background: rgba(255, 90, 31, 0.12);
+  border-color: rgba(255, 90, 31, 0.3);
+  color: #FF5A1F;
 }
 
 /* Empty State */
@@ -775,9 +780,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 20px;
-  border-radius: 9999px;
-  background: hsl(var(--main-two-600));
+  padding: 10px 24px;
+  border-radius: 8px;
+  background: #FF5A1F;
   color: #ffffff;
   font-size: 13px;
   font-weight: 700;
@@ -788,6 +793,69 @@
 
 .work-empty-reset-btn:hover {
   background: #e04b16;
+}
+
+/* --------------------------------------------------------------------------
+   Dedicated CTA Banner Section
+   -------------------------------------------------------------------------- */
+.work-cta-section {
+  position: relative;
+  background: linear-gradient(180deg, #09090b 0%, #111114 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 90px 0;
+  overflow: hidden;
+}
+
+.work-cta-card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 56px 40px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .work-cta-card {
+    padding: 36px 20px;
+  }
+}
+
+.work-cta-badge {
+  display: inline-block;
+  color: #FF5A1F;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.work-cta-title {
+  font-family: var(--heading-font);
+  font-size: clamp(1.85rem, 1.2rem + 2.4vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.18;
+  margin-bottom: 16px;
+}
+
+.work-cta-desc {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+  max-width: 760px;
+  margin-inline: auto;
+  margin-bottom: 32px;
+}
+
+.work-cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 /* --------------------------------------------------------------------------

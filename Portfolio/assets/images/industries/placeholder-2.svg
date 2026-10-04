@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
-  <path d="M4 28L14 10L24 28H4Z" stroke="#9ca3af" stroke-width="2.5" stroke-linejoin="round"/>
-  <circle cx="14" cy="22" r="2.5" fill="#9ca3af"/>
-  <text x="36" y="25" fill="#9ca3af" font-family="'Instrument Sans', sans-serif" font-size="14" font-weight="700" letter-spacing="2">NEXUS DATA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 36" fill="none">
+  <path d="M4 26L14 8L24 26H4Z" stroke="#ffffff" stroke-width="2.2" stroke-linejoin="round" opacity="0.9"/>
+  <circle cx="14" cy="20" r="2.2" fill="#ffffff" opacity="0.9"/>
+  <text x="36" y="23" fill="#ffffff" font-family="'Instrument Sans', -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="2" opacity="0.9">NEXUS DATA</text>
 </svg>

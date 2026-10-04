@@ -278,9 +278,7 @@
     </header>
     <!-- ==================== Header End ==================== -->
 
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <main>
+    <main>
           <!-- ==================== 1. Hero Section Start ==================== -->
           <section class="work-hero-area position-relative z-1">
             <div class="container tw-container-1800-px">
@@ -305,10 +303,10 @@
                   <div class="work-stats-pill" aria-label="80 plus projects completed using Wix Studio, Wix Velo, and Figma">
                     <div class="work-stats-icons">
                       <span class="work-stats-avatar" title="Wix Studio">
-                        <img src="/assets/images/thumbs/wix studio-updated.png" alt="Wix Studio" />
+                        <img src="/assets/images/thumbs/wix-studio.png" alt="Wix Studio" />
                       </span>
                       <span class="work-stats-avatar" title="Wix Velo">
-                        <img src="/assets/images/thumbs/wix velo.png" alt="Wix Velo" />
+                        <img src="/assets/images/thumbs/wix-velo.png" alt="Wix Velo" />
                       </span>
                       <span class="work-stats-avatar" title="Figma">
                         <img src="/assets/images/thumbs/figma-updated.png" alt="Figma" />
@@ -320,13 +318,17 @@
                     </span>
                   </div>
 
-                  <!-- Primary Button with dynamic count -->
+                  <!-- Primary Orange Button with main-page hover circle-dot animation -->
                   <div>
-                    <a href="#projects" id="viewAllProjectsBtn" class="work-hero-btn" aria-label="View all projects in gallery">
-                      <span class="btn-arrow-icon" aria-hidden="true">
-                        <i class="ph-bold ph-arrow-down-right"></i>
-                      </span>
-                      <span>View all projects <span id="heroProjectCount" class="btn-count">(4)</span></span>
+                    <a
+                      href="#projects"
+                      id="viewAllProjectsBtn"
+                      class="tw-hover-btn bg-main-two-600 text-white fw-bold tw-py-4 tw-px-8 d-inline-flex align-items-center tw-gap-3 hover-text-white text-uppercase tw-rounded-lg"
+                      aria-label="View all projects in gallery"
+                    >
+                      <span>VIEW ALL PROJECTS <span id="heroProjectCount">(4)</span></span>
+                      <i class="ph-bold ph-arrow-down-right tw-text-lg"></i>
+                      <span class="tw-hover-btn-circle-dot bg-black"></span>
                     </a>
                   </div>
                 </div>
@@ -336,7 +338,7 @@
                   <div id="slideshowContainer" class="work-slideshow-container" role="region" aria-roledescription="carousel" aria-label="Featured Wix Studio Case Studies">
                     <!-- Slides Track -->
                     <div id="slideshowTrack" class="work-slideshow-track">
-                      <!-- Static fallback in case JS is disabled, hydrated dynamically by work-page.js -->
+                      <!-- Fallback slide, hydrated dynamically by work-page.js -->
                       <a href="/work/mike-nellis" class="work-slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 3: Mike Nellis">
                         <div class="work-slide-img-wrap">
                           <img src="/assets/images/work/mikenellis-main.png" alt="Mike Nellis Wix Studio Website Preview" width="720" height="450" fetchpriority="high" />
@@ -368,17 +370,16 @@
           <!-- ==================== 2. Trusted-by / Industries Strip Start ==================== -->
           <section class="work-trusted-strip-area position-relative z-1">
             <div class="container tw-container-1800-px">
-              <div class="work-trusted-box" data-aos="fade-up" data-aos-duration="800">
-                <span class="work-trusted-label">Trusted by 80+ businesses worldwide</span>
-                <div id="trustedPartnersRow" class="work-trusted-row">
-                  <!-- Rendered dynamically from WORKS_DATA.industryPartners -->
-                  <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-1.svg" alt="Aura Tech - Trusted Client Logo" width="140" height="36" loading="lazy" /></div>
-                  <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-2.svg" alt="Nexus Data - Trusted Client Logo" width="140" height="36" loading="lazy" /></div>
-                  <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-3.svg" alt="Pulse Labs - Trusted Client Logo" width="140" height="36" loading="lazy" /></div>
-                  <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-4.svg" alt="Venture Co - Trusted Client Logo" width="140" height="36" loading="lazy" /></div>
-                  <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-5.svg" alt="Horizon AI - Trusted Client Logo" width="140" height="36" loading="lazy" /></div>
-                  <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-6.svg" alt="Synapse - Trusted Client Logo" width="140" height="36" loading="lazy" /></div>
-                </div>
+              <p class="work-trusted-intro" data-aos="fade-up" data-aos-duration="800">
+                Over 80+ businesses globally have relied on us to craft their digital products
+              </p>
+              <div id="trustedPartnersRow" class="work-trusted-pill-box" data-aos="fade-up" data-aos-duration="800">
+                <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-1.svg" alt="Aura Tech" width="140" height="32" loading="lazy" /></div>
+                <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-2.svg" alt="Nexus Data" width="140" height="32" loading="lazy" /></div>
+                <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-3.svg" alt="Pulse Labs" width="140" height="32" loading="lazy" /></div>
+                <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-4.svg" alt="Venture Co" width="140" height="32" loading="lazy" /></div>
+                <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-5.svg" alt="Horizon AI" width="140" height="32" loading="lazy" /></div>
+                <div class="work-trusted-item"><img src="/assets/images/industries/placeholder-6.svg" alt="Synapse" width="140" height="32" loading="lazy" /></div>
               </div>
             </div>
           </section>
@@ -395,10 +396,10 @@
               </div>
 
               <!-- Main Two-Column Layout -->
-              <div class="row g-4 g-lg-5">
+              <div class="row g-4 g-lg-5 align-items-start">
                 <!-- Left Column: Sticky Filter Sidebar -->
-                <aside class="col-lg-4 col-xl-3">
-                  <div class="work-sidebar-wrap" data-aos="fade-up" data-aos-duration="800">
+                <aside class="col-lg-4 col-xl-3 work-sidebar-col">
+                  <div class="work-sidebar-wrap">
                     <div class="work-filter-card">
                       <!-- Group 1: INDUSTRIES (Open by default) -->
                       <div class="work-accordion-group">
@@ -427,15 +428,16 @@
                       </div>
                     </div>
 
-                    <!-- Book a Call Button (WhatsApp) -->
+                    <!-- Book a Call Button (Orange with sliding circle-dot animation) -->
                     <a
                       href="https://api.whatsapp.com/send?phone=923098828483&text=Hi%20Abdul%20Moiz%2C%20I%20came%20across%20your%20profile%20and%20would%20love%20to%20discuss%20my%20project.%20Let%E2%80%99s%20connect"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="work-sidebar-btn"
+                      class="tw-hover-btn bg-main-two-600 text-white fw-bold tw-py-4 tw-px-6 d-flex align-items-center justify-content-center tw-gap-2 hover-text-white text-uppercase tw-rounded-lg w-100"
                     >
-                      <span class="sidebar-btn-icon"><i class="ph-bold ph-arrow-up-right"></i></span>
                       <span>Book a Call</span>
+                      <i class="ph-bold ph-arrow-up-right tw-text-lg"></i>
+                      <span class="tw-hover-btn-circle-dot bg-black"></span>
                     </a>
                   </div>
                 </aside>
@@ -443,7 +445,7 @@
                 <!-- Right Column: Projects 2-Column Grid -->
                 <div class="col-lg-8 col-xl-9">
                   <div id="projectsGrid" class="work-grid" aria-live="polite">
-                    <!-- Cards rendered by work-page.js -->
+                    <!-- Cards rendered by work-page.js with equal height and hover states -->
                   </div>
                 </div>
               </div>
@@ -451,117 +453,107 @@
           </section>
           <!-- ==================== 3. Projects Section End ==================== -->
 
-          <!-- ==================== 4. CTA Banner Start ==================== -->
-          <section class="footer-three-area pt-120 tw-pb-10 position-relative z-1">
+          <!-- ==================== 4. Dedicated CTA Banner Start ==================== -->
+          <section class="work-cta-section position-relative z-1">
             <div class="container tw-container-1800-px">
-              <div class="row justify-content-between pb-120">
-                <div class="col-xl-6 col-lg-7">
-                  <div class="footer-three-top-left tw-me-25" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                    <div class="tw-mb-3">
-                      <span class="text-main-two-600 text-uppercase fw-bold tw-text-sm tw-letter-spacing-2">
-                        HAVE A WEBSITE PROJECT IN MIND?
-                      </span>
-                    </div>
-                    <div class="tw-mb-6">
-                      <h2 class="tw-text-15 text-white tw-char-animation">
-                        LET'S BUILD SOMETHING THAT WORKS.
-                      </h2>
-                    </div>
-                    <p class="text-white-50 tw-text-lg tw-mb-6">
-                      Whether you need a new Wix Studio website, a complete Wix redesign, custom functionality or a more professional online presence, let's discuss your requirements and find the right solution.
-                    </p>
-                    <div class="d-flex align-items-center tw-gap-4 tw-mb-8 flex-wrap">
-                      <a
-                        class="tw-hover-btn bg-main-two-600 text-white fw-bold tw-py-4 tw-px-8 d-inline-block hover-text-heading text-uppercase tw-rounded-md"
-                        href="https://api.whatsapp.com/send?phone=923098828483&text=Hi%20Abdul%20Moiz%2C%20I%20came%20across%20your%20profile%20and%20would%20love%20to%20discuss%20my%20project.%20Let%E2%80%99s%20connect"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        START A PROJECT
-                        <span class="tw-hover-btn-circle-dot bg-white"></span>
-                      </a>
-                      <a
-                        class="tw-hover-btn border border-white-50 text-white fw-semibold tw-py-4 tw-px-8 d-inline-block hover-bg-white hover-text-heading text-uppercase tw-rounded-md tw-transition-3"
-                        href="/#contact"
-                      >
-                        CONTACT ME
-                      </a>
-                    </div>
-                    <div class="footer-three-top-info tw-p-705 tw-rounded-lg d-flex tw-gap-6">
-                      <div class="footer-three-top-thumb tw-w-160-px">
-                        <img class="tw-rounded-lg w-100" src="/assets/images/thumbs/footer-three-thumb.jpg" alt="Abdul Moiz - Wix Studio Expert" />
-                      </div>
-                      <div class="footer-three-top-content">
-                        <h4 class="text-white tw-text-lg tw-mb-2">Abdul Moiz</h4>
-                        <span class="text-main-two-600 tw-text-sm d-block tw-mb-2 fw-semibold">Wix Studio Expert &amp; Web Designer</span>
-                        <p class="text-white-50 tw-text-sm mb-0">Building fast, responsive, and search-optimized websites that turn visitors into clients.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xl-5 col-lg-5">
-                  <div class="tw-rounded-xl p-4 p-md-5 h-100 d-flex flex-column justify-content-between" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                    <div>
-                      <span class="text-main-two-600 text-uppercase fw-bold tw-text-xs tw-letter-spacing-2 d-block tw-mb-3">
-                        READY TO ELEVATE YOUR BRAND?
-                      </span>
-                      <h3 class="text-white tw-text-4xl fw-bold tw-mb-4" style="line-height: 1.2;">
-                        Let's create your next standout website.
-                      </h3>
-                      <p class="text-white-50 tw-text-base tw-mb-6">
-                        Available for select freelance Wix Studio projects, full redesigns, and custom Velo integrations worldwide.
-                      </p>
-                    </div>
-                    <div>
-                      <ul class="d-flex flex-column tw-gap-3 mb-0 ps-0">
-                        <li class="d-flex align-items-center tw-gap-3 text-white">
-                          <span class="text-main-two-600 tw-text-xl"><i class="ph ph-envelope"></i></span>
-                          <a href="mailto:contactwithabdulmoiz@gmail.com" class="text-white hover-text-main-two-600 tw-transition-2">contactwithabdulmoiz@gmail.com</a>
-                        </li>
-                        <li class="d-flex align-items-center tw-gap-3 text-white">
-                          <span class="text-main-two-600 tw-text-xl"><i class="ph ph-phone-call"></i></span>
-                          <a href="tel:+923098828483" class="text-white hover-text-main-two-600 tw-transition-2">(+92) 3098828483</a>
-                        </li>
-                        <li class="d-flex align-items-center tw-gap-3 text-white">
-                          <span class="text-main-two-600 tw-text-xl"><i class="ph ph-map-pin-line"></i></span>
-                          <span>Pakistan &bull; Working Worldwide</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+              <div class="work-cta-card" data-aos="fade-up" data-aos-duration="1000">
+                <span class="work-cta-badge">HAVE A WEBSITE PROJECT IN MIND?</span>
+                <h2 class="work-cta-title">LET'S BUILD SOMETHING THAT WORKS.</h2>
+                <p class="work-cta-desc">
+                  Whether you need a new Wix Studio website, a complete Wix redesign, custom functionality or a more professional online presence, let's discuss your requirements and find the right solution.
+                </p>
+                <div class="work-cta-buttons">
+                  <a
+                    class="tw-hover-btn bg-main-two-600 text-white fw-bold tw-py-4 tw-px-8 d-inline-flex align-items-center tw-gap-2 hover-text-white text-uppercase tw-rounded-lg"
+                    href="https://api.whatsapp.com/send?phone=923098828483&text=Hi%20Abdul%20Moiz%2C%20I%20came%20across%20your%20profile%20and%20would%20love%20to%20discuss%20my%20project.%20Let%E2%80%99s%20connect"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>START A PROJECT</span>
+                    <i class="ph-bold ph-arrow-up-right tw-text-base"></i>
+                    <span class="tw-hover-btn-circle-dot bg-black"></span>
+                  </a>
+                  <a
+                    class="tw-hover-btn border border-white-50 text-white fw-semibold tw-py-4 tw-px-8 d-inline-flex align-items-center hover-bg-white hover-text-heading text-uppercase tw-rounded-lg tw-transition-3"
+                    href="/#contact"
+                  >
+                    <span>CONTACT ME</span>
+                  </a>
                 </div>
               </div>
+            </div>
+          </section>
+          <!-- ==================== 4. Dedicated CTA Banner End ==================== -->
 
-              <!-- Footer Bottom -->
-              <div class="footer-three-bottom">
-                <div class="row align-items-center justify-content-between g-4">
-                  <div class="col-md-6 text-center text-md-start">
-                    <p class="text-white-50 tw-text-sm mb-0">
-                      &copy; <span id="currentYear"></span> Moiz Studio. All rights reserved.
-                    </p>
-                  </div>
-                  <div class="col-md-6 text-center text-md-end">
-                    <ul class="d-inline-flex align-items-center tw-gap-6 mb-0 ps-0">
-                      <li><a href="/about" data-section="about" class="text-white-50 hover-text-main-two-600 tw-text-sm tw-transition-2">About</a></li>
-                      <li><a href="/services" data-section="services" class="text-white-50 hover-text-main-two-600 tw-text-sm tw-transition-2">Services</a></li>
-                      <li><a href="/work" class="text-white hover-text-main-two-600 tw-text-sm tw-transition-2">Work</a></li>
-                      <li><a href="/process" data-section="process" class="text-white-50 hover-text-main-two-600 tw-text-sm tw-transition-2">Process</a></li>
-                      <li><a href="/#contact" class="text-white-50 hover-text-main-two-600 tw-text-sm tw-transition-2">Contact</a></li>
-                    </ul>
+          <!-- ==================== 5. Site Footer (Exact Homepage Footer) Start ==================== -->
+          <footer class="footer-three-area pt-80 tw-pb-10 position-relative z-1">
+            <div class="footer-three-border tw-px-18 tw-mb-10">
+              <div class="container-fluid gx-0">
+                <div class="row">
+                  <div class="col-xl-12">
+                    <div class="footer-three-middile d-flex align-items-center justify-content-between flex-wrap tw-gap-6">
+                      <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        <h4 class="tw-text-2xl text-white tw-mb-2">Quick Links</h4>
+                        <ul class="d-flex tw-gap-2 flex-wrap mb-0 ps-0">
+                          <li>
+                            <a class="tw-text-lg text-white hover-text-main-two-600" href="/work">WORK,</a>
+                          </li>
+                          <li>
+                            <a class="tw-text-lg text-white hover-text-main-two-600" href="/about" data-section="about">ABOUT,</a>
+                          </li>
+                          <li>
+                            <a class="tw-text-lg text-white hover-text-main-two-600" href="/services" data-section="services">SERVICES,</a>
+                          </li>
+                          <li>
+                            <a class="tw-text-lg text-white hover-text-main-two-600" href="/process" data-section="process">Process</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                        <a
+                          class="footer-three-back-to-top tw-w-170 tw-h-170 lh-1 d-inline-flex justify-content-center align-items-center bg-main-two-600 text-white tw-text-3xl rounded-circle"
+                          href="/"
+                          data-route="/"
+                          aria-label="Back to top"
+                        >
+                          <i class="ph ph-arrow-up"></i>
+                        </a>
+                      </div>
+                      <div class="text-lg-end" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <img src="/assets/images/thumbs/final logo-footer.png" alt="Moiz Studio Logo" style="max-width: 200px;" />
+                        <p class="tw-text-base text-white-50 tw-mb-1 tw-mt-2">
+                          Abdul Moiz Wix Studio Expert Web Designer Wix Velo
+                        </p>
+                        <p class="tw-text-sm text-white-50 mb-0">
+                          &copy; 2026 Moiz Studio. All rights reserved.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <div>
+              <div class="container tw-container-1800-px">
+                <div class="row">
+                  <div class="col-xl-12">
+                    <div class="footer-three-bottom">
+                      <h5 class="footer-three-bottom-title text-white">Moiz Studio</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div>
               <img class="position-absolute top-0 start-0 z-n1" src="/assets/images/shapes/footer-three-bg-shape.png" alt="footer shape" />
             </div>
-          </section>
-          <!-- ==================== 4. CTA Banner End ==================== -->
+          </footer>
+          <!-- ==================== 5. Site Footer End ==================== -->
         </main>
-      </div>
-    </div>
 
-    <!-- Floating WhatsApp Button -->
+    <!-- Pinned WhatsApp Floating Button -->
     <a
       href="https://api.whatsapp.com/send?phone=923098828483&text=Hi%20Abdul%20Moiz%2C%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20discuss%20a%20project.%20Let%E2%80%99s%20connect"
       class="whatsapp-float-btn"
@@ -615,10 +607,5 @@
     <!-- Work Page Data Model & Controller -->
     <script src="/assets/js/works-data.js"></script>
     <script src="/assets/js/work-page.js"></script>
-
-    <script>
-      const currentYearEl = document.getElementById("currentYear");
-      if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
-    </script>
   </body>
 </html>

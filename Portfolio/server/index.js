@@ -50,7 +50,7 @@ const MIME_TYPES = {
 
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-  const pathname = parsedUrl.pathname;
+  const pathname = decodeURIComponent(parsedUrl.pathname);
 
   // Handle Contact API Endpoint
   if (pathname === '/api/contact' || pathname === '/api/contact/') {
