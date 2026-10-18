@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin Dashboard &amp; CMS | Moiz Studio</title>
+  <link rel="icon" href="/assets/images/thumbs/final favicon.png" type="image/png" />
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="/admin/css/admin.css" />
+</head>
+<body>
+
+  <!-- ============================================================== -->
+  <!-- 1. LOGIN SCREEN (Visible when unauthenticated) -->
+  <!-- ============================================================== -->
+  <div id="loginScreen" class="login-container">
+    <div class="login-card">
+      <img src="/assets/images/thumbs/final logo-header.png" alt="Moiz Studio" class="login-logo" />
+      <h1 class="login-title">Admin Dashboard</h1>
+      <p class="login-desc">Sign in to manage your portfolio content, projects, and settings.</p>
+
+      <div id="loginAlert" style="display: none; padding: 10px 14px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; text-align: left;"></div>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="loginUsername">Username</label>
+          <input type="text" id="loginUsername" class="form-control" placeholder="Enter username" required autofocus />
+        </div>
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Enter password" required />
+        </div>
+        <button type="submit" id="loginBtn" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 8px;">
+          <span>Log In to CMS</span>
+          <i class="ph-bold ph-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 2. ADMIN DASHBOARD SHELL (Visible when authenticated) -->
+  <!-- ============================================================== -->
+  <div id="adminShell" class="admin-shell" style="display: none;">
+
+    <!-- Left Sidebar -->
+    <aside id="adminSidebar" class="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="/" target="_blank" title="Preview Live Website">
+          <img src="/assets/images/thumbs/final logo-header.png" alt="Moiz Studio" class="sidebar-logo" />
+        </a>
+        <span class="sidebar-badge">CMS</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Overview</div>
+        <a class="nav-item active" data-section="dashboard">
+          <i class="ph-bold ph-squares-four"></i>
+          <span>Dashboard</span>
+        </a>
+
+        <div class="nav-section-title">Pages &amp; Content</div>
+        <a class="nav-item" data-section="home-page">
+          <i class="ph-bold ph-house-line"></i>
+          <span>Home Page</span>
+        </a>
+        <a class="nav-item" data-section="work-page">
+          <i class="ph-bold ph-briefcase"></i>
+          <span>Work Page</span>
+        </a>
+        <a class="nav-item" data-section="projects">
+          <i class="ph-bold ph-folder-notch-open"></i>
+          <span>Projects / Studies</span>
+          <span id="navProjectCount" class="nav-pill">0</span>
+        </a>
+        <a class="nav-item" data-section="industries">
+          <i class="ph-bold ph-tag"></i>
+          <span>Industries &amp; Filters</span>
+        </a>
+        <a class="nav-item" data-section="testimonials">
+          <i class="ph-bold ph-chat-teardrop-text"></i>
+          <span>Testimonials</span>
+        </a>
+        <a class="nav-item" data-section="services">
+          <i class="ph-bold ph-sparkle"></i>
+          <span>Services</span>
+        </a>
+        <a class="nav-item" data-section="about-page">
+          <i class="ph-bold ph-user-circle"></i>
+          <span>About Page</span>
+        </a>
+        <a class="nav-item" data-section="process-page">
+          <i class="ph-bold ph-path"></i>
+          <span>Process Steps</span>
+        </a>
+        <a class="nav-item" data-section="platforms-page">
+          <i class="ph-bold ph-stack"></i>
+          <span>Platforms &amp; Core</span>
+        </a>
+        <a class="nav-item" data-section="contact-page">
+          <i class="ph-bold ph-address-book"></i>
+          <span>Contact &amp; Socials</span>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <a class="nav-item" data-section="inbox-page">
+          <i class="ph-bold ph-tray"></i>
+          <span>Inbox (Inquiries)</span>
+          <span id="navInboxCount" class="nav-pill" style="display: none;">0</span>
+        </a>
+        <a class="nav-item" data-section="media-page">
+          <i class="ph-bold ph-images"></i>
+          <span>Media Library</span>
+        </a>
+        <a class="nav-item" data-section="themes-page">
+          <i class="ph-bold ph-palette"></i>
+          <span>Colors &amp; Themes</span>
+        </a>
+        <a class="nav-item" data-section="settings-page">
+          <i class="ph-bold ph-gear"></i>
+          <span>Website Settings</span>
+        </a>
+        <a class="nav-item" data-section="account-page">
+          <i class="ph-bold ph-shield-check"></i>
+          <span>Admin Account</span>
+        </a>
+        <a class="nav-item" data-section="backups-page">
+          <i class="ph-bold ph-clock-counter-clockwise"></i>
+          <span>Backups &amp; Safety</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-avatar" id="sidebarAvatar">A</div>
+          <div class="admin-user-text">
+            <div class="admin-name" id="sidebarUsername">abdulmoiz</div>
+            <div class="admin-role">Super Admin</div>
+          </div>
+        </div>
+        <button id="logoutBtn" class="btn btn-secondary btn-sm" title="Logout">
+          <i class="ph-bold ph-sign-out"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="admin-main">
+
+      <!-- Default Credentials Warning Banner -->
+      <div id="defaultCredentialsBanner" class="credentials-banner" style="display: none;">
+        <div>
+          <i class="ph-bold ph-warning-circle" style="margin-right: 6px;"></i>
+          <strong>Security Notice:</strong> You are using default login credentials. Please <a id="bannerChangeLink">change your password</a> before your website goes live.
+        </div>
+        <button id="bannerDismissBtn" class="credentials-banner-close" title="Dismiss"><i class="ph-bold ph-x"></i></button>
+      </div>
+
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle menu">
+            <i class="ph-bold ph-list"></i>
+          </button>
+          <h1 id="topbarTitle" class="page-title">Dashboard Overview</h1>
+        </div>
+        <div class="topbar-right">
+          <div id="saveStatus" class="save-status saved">
+            <i class="ph-bold ph-check-circle"></i>
+            <span>All changes saved</span>
+          </div>
+          <a href="/" target="_blank" class="btn btn-secondary btn-sm">
+            <i class="ph-bold ph-arrow-square-out"></i>
+            <span>View Live Site</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Body / Active Section Canvas -->
+      <div class="admin-body">
+
+        <!-- ============================================================== -->
+        <!-- SECTION 1: DASHBOARD OVERVIEW -->
+        <!-- ============================================================== -->
+        <section id="sec-dashboard" class="admin-section active">
+          <!-- Metric Overview Cards -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-icon"><i class="ph-bold ph-briefcase"></i></div>
+              <div class="metric-data">
+                <div class="metric-value" id="dashTotalProjects">0</div>
+                <div class="metric-label">Published Projects</div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon"><i class="ph-bold ph-chat-teardrop-text"></i></div>
+              <div class="metric-data">
+                <div class="metric-value" id="dashTotalTestimonials">0</div>
+                <div class="metric-label">Client Reviews</div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon"><i class="ph-bold ph-sparkle"></i></div>
+              <div class="metric-data">
+                <div class="metric-value" id="dashTotalServices">0</div>
+                <div class="metric-label">Offered Services</div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon"><i class="ph-bold ph-tray"></i></div>
+              <div class="metric-data">
+                <div class="metric-value" id="dashUnreadMessages">0</div>
+                <div class="metric-label">New Inquiries</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="quick-actions">
+            <button class="btn btn-primary" onclick="openProjectModal()"><i class="ph-bold ph-plus-circle"></i> Add New Project</button>
+            <button class="btn btn-secondary" onclick="openTestimonialModal()"><i class="ph-bold ph-plus"></i> Add Testimonial</button>
+            <button class="btn btn-secondary" onclick="openServiceModal()"><i class="ph-bold ph-plus"></i> Add Service</button>
+            <button class="btn btn-secondary" onclick="openMediaUploadModal()"><i class="ph-bold ph-upload-simple"></i> Upload Media</button>
+            <button class="btn btn-secondary" onclick="navigateToSection('themes-page')"><i class="ph-bold ph-palette"></i> Customize Theme</button>
+          </div>
+
+          <!-- Recent Inquiries Card -->
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Recent Inquiries (Inbox)</h3>
+                <p class="card-subtitle">Form submissions received from the website contact form.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="navigateToSection('inbox-page')">View All Inquiries</button>
+            </div>
+            <div id="dashRecentInquiriesTable">
+              <p style="color: #94a3b8; font-size: 14px;">No inquiries received yet.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 2: HOME PAGE EDITOR -->
+        <!-- ============================================================== -->
+        <section id="sec-home-page" class="admin-section">
+          <form id="homePageForm">
+            <!-- Hero Editor -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Hero Banner Section</h3>
+                  <p class="card-subtitle">The primary banner text, buttons, and visual at the top of the homepage.</p>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Top Category Badge</label>
+                  <input type="text" class="form-control" id="homeHeroBadgeTitle" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Main Heading</label>
+                  <input type="text" class="form-control" id="homeHeroHeading" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hero Description</label>
+                <textarea class="form-control" id="homeHeroDescription" rows="3"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Button 1 Text</label>
+                  <input type="text" class="form-control" id="homeHeroBtn1Text" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Button 1 URL / Link</label>
+                  <input type="text" class="form-control" id="homeHeroBtn1Link" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Button 2 Text</label>
+                  <input type="text" class="form-control" id="homeHeroBtn2Text" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Button 2 URL / Link</label>
+                  <input type="text" class="form-control" id="homeHeroBtn2Link" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Home Stats Repeater -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Home Hero Stats Cards</h3>
+                  <p class="card-subtitle">Editable numbers and labels (no hardcoded "80+" or "2+").</p>
+                </div>
+              </div>
+              <div id="homeStatsRepeater"></div>
+            </div>
+
+            <!-- About Teaser -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">About Teaser Section</h3>
+                  <p class="card-subtitle">Story paragraphs, circular experience badge, and image.</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Section Heading</label>
+                <input type="text" class="form-control" id="homeAboutHeading" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Circular Badge Years</label>
+                  <input type="text" class="form-control" id="homeAboutBadgeYears" placeholder="e.g. 2+" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Circular Badge Text (HTML allowed)</label>
+                  <input type="text" class="form-control" id="homeAboutBadgeText" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Paragraph 1</label>
+                <textarea class="form-control" id="homeAboutP1" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Paragraph 2</label>
+                <textarea class="form-control" id="homeAboutP2" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Paragraph 3</label>
+                <textarea class="form-control" id="homeAboutP3" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Paragraph 4</label>
+                <textarea class="form-control" id="homeAboutP4" rows="2"></textarea>
+              </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Bottom CTA Banner</h3>
+                  <p class="card-subtitle">The call to action section above the contact form.</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tagline</label>
+                <input type="text" class="form-control" id="homeCtaTagline" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Headline</label>
+                <input type="text" class="form-control" id="homeCtaHeading" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" id="homeCtaDesc" rows="2"></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary"><i class="ph-bold ph-floppy-disk"></i> Save Home Page Changes</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 3: WORK PAGE EDITOR -->
+        <!-- ============================================================== -->
+        <section id="sec-work-page" class="admin-section">
+          <form id="workPageForm">
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Work Page Header</h3>
+                  <p class="card-subtitle">Titles, intro paragraph, and stats pill on the dedicated /work page.</p>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Breadcrumb</label>
+                  <input type="text" class="form-control" id="workBreadcrumb" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Hero Title Main</label>
+                  <input type="text" class="form-control" id="workTitle" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Title Accent (Italic Orange)</label>
+                  <input type="text" class="form-control" id="workTitleAccent" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hero Intro Text</label>
+                <textarea class="form-control" id="workIntro" rows="3"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Stats Pill Count</label>
+                  <input type="text" class="form-control" id="workStatsPillCount" placeholder="e.g. 80+" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Stats Pill Label</label>
+                  <input type="text" class="form-control" id="workStatsPillLabel" placeholder="e.g. Projects Done" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Trusted Partners Heading</label>
+                  <input type="text" class="form-control" id="workTrustedIntro" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Trusted Client Strip -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Trusted Businesses Strip (Logos)</h3>
+                  <p class="card-subtitle">The 6 brand logos shown in the "Trusted by 80+ businesses" strip.</p>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="addTrustedPartnerRow()"><i class="ph-bold ph-plus"></i> Add Partner Logo</button>
+              </div>
+              <div id="trustedPartnersRepeater"></div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary"><i class="ph-bold ph-floppy-disk"></i> Save Work Page Changes</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 4: PROJECTS / CASE STUDIES -->
+        <!-- ============================================================== -->
+        <section id="sec-projects" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Projects &amp; Case Studies</h3>
+                <p class="card-subtitle">Manage all projects. Adding or editing automatically updates the Work grid, filters, slideshow, and generates case study pages.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openProjectModal()"><i class="ph-bold ph-plus"></i> Add New Project</button>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Thumbnail</th>
+                    <th>Title &amp; Slug</th>
+                    <th>Industry</th>
+                    <th>Featured (Slide)</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="projectsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 5: INDUSTRIES & FILTERS -->
+        <!-- ============================================================== -->
+        <section id="sec-industries" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Industry Categories</h3>
+                <p class="card-subtitle">Manage industry tags used by projects. The Work page filter chips dynamically show only industries with published projects.</p>
+              </div>
+              <button class="btn btn-primary" onclick="addIndustryPrompt()"><i class="ph-bold ph-plus"></i> Add New Industry</button>
+            </div>
+            <div id="industriesListContainer"></div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 6: TESTIMONIALS -->
+        <!-- ============================================================== -->
+        <section id="sec-testimonials" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Client Testimonials</h3>
+                <p class="card-subtitle">Renders on the home page testimonial slider and the testimonials section.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openTestimonialModal()"><i class="ph-bold ph-plus"></i> Add Testimonial</button>
+            </div>
+            <div id="testimonialsListContainer"></div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 7: SERVICES -->
+        <!-- ============================================================== -->
+        <section id="sec-services" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Services Offered</h3>
+                <p class="card-subtitle">Manage service items, bullet points, numbers, and optional pricing toggles.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openServiceModal()"><i class="ph-bold ph-plus"></i> Add New Service</button>
+            </div>
+            <div id="servicesListContainer"></div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 8: ABOUT PAGE -->
+        <!-- ============================================================== -->
+        <section id="sec-about-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">About Section &amp; Experience</h3>
+                <p class="card-subtitle">Edit the story text, years badge, and replace the portrait photo.</p>
+              </div>
+            </div>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">
+              The About section is integrated directly on the home page and redirects from <code>/about</code>. You can update all story text, paragraphs, and circular experience counters directly in the <strong>Home Page</strong> tab.
+            </p>
+            <button class="btn btn-secondary" onclick="navigateToSection('home-page')"><i class="ph-bold ph-pencil-simple"></i> Go to Home Page Editor</button>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 9: PROCESS STEPS -->
+        <!-- ============================================================== -->
+        <section id="sec-process-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Web Development Process Steps</h3>
+                <p class="card-subtitle">The 6 numbered steps (Discover, Plan, Design, Develop, Optimize, Launch).</p>
+              </div>
+            </div>
+            <div id="processStepsListContainer"></div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" onclick="saveProcessSteps()"><i class="ph-bold ph-floppy-disk"></i> Save Process Steps</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 10: PLATFORMS & EXPERTISE -->
+        <!-- ============================================================== -->
+        <section id="sec-platforms-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Platforms &amp; Core Expertise Strip</h3>
+                <p class="card-subtitle">The 8 platform logos (Wix Studio, Velo, Figma, CMS, etc.) displayed across the website.</p>
+              </div>
+            </div>
+            <div id="platformsListContainer"></div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" onclick="savePlatforms()"><i class="ph-bold ph-floppy-disk"></i> Save Platform Logos</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 11: CONTACT & SOCIAL LINKS -->
+        <!-- ============================================================== -->
+        <section id="sec-contact-page" class="admin-section">
+          <form id="contactInfoForm">
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Contact Channels</h3>
+                  <p class="card-subtitle">Propagates to header, footer, contact section, CTA buttons, and mobile menu.</p>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Contact Email</label>
+                  <input type="email" class="form-control" id="contactEmail" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="text" class="form-control" id="contactPhone" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">WhatsApp Number (e.g. 923098828483)</label>
+                  <input type="text" class="form-control" id="contactWhatsAppNumber" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">WhatsApp Default Prefilled Message</label>
+                <textarea class="form-control" id="contactWhatsAppMsg" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Location / Base</label>
+                <input type="text" class="form-control" id="contactLocation" />
+              </div>
+            </div>
+
+            <!-- Social Links Repeater -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Social Links</h3>
+                  <p class="card-subtitle">LinkedIn, Behance, GitHub, WhatsApp, and custom social links.</p>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="addSocialLinkRow()"><i class="ph-bold ph-plus"></i> Add Social Link</button>
+              </div>
+              <div id="socialLinksRepeater"></div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary"><i class="ph-bold ph-floppy-disk"></i> Save Contact &amp; Social Info</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 12: INBOX -->
+        <!-- ============================================================== -->
+        <section id="sec-inbox-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Contact Inquiries Inbox</h3>
+                <p class="card-subtitle">All visitor inquiries submitted through the contact form.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="exportInboxCsv()"><i class="ph-bold ph-download-simple"></i> Export All as CSV</button>
+            </div>
+            <div id="inboxTableContainer"></div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 13: MEDIA LIBRARY -->
+        <!-- ============================================================== -->
+        <section id="sec-media-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Media Library</h3>
+                <p class="card-subtitle">Upload, replace, and manage images used on the website. Uploaded images are automatically optimized and converted to WebP format.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openMediaUploadModal()"><i class="ph-bold ph-upload-simple"></i> Upload New Media</button>
+            </div>
+            <div class="form-group">
+              <input type="text" id="mediaSearchInput" class="form-control" placeholder="Search media by title or slot..." />
+            </div>
+            <div id="mediaLibraryGrid" class="media-grid"></div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 14: COLORS & THEMES -->
+        <!-- ============================================================== -->
+        <section id="sec-themes-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Preset Themes</h3>
+                <p class="card-subtitle">Choose one of the 4 complete themes built from the brand tokens. Applies instantly across all pages with zero layout shift.</p>
+              </div>
+            </div>
+            <div class="themes-preset-grid">
+              <div class="theme-preset-card" id="themeCard-default" onclick="selectThemePreset('default')">
+                <div style="font-weight: 700; font-size: 16px;">Default Brand</div>
+                <div style="font-size: 13px; color: #64748b; margin-top: 2px;">White &amp; Black with Vibrant Orange</div>
+                <div class="theme-color-chips">
+                  <div class="color-chip" style="background: #ffffff;"></div>
+                  <div class="color-chip" style="background: #09090b;"></div>
+                  <div class="color-chip" style="background: #FF5A1F;"></div>
+                  <div class="color-chip" style="background: #ccff00;"></div>
+                </div>
+              </div>
+              <div class="theme-preset-card" id="themeCard-dark" onclick="selectThemePreset('dark')">
+                <div style="font-weight: 700; font-size: 16px;">Dark Theme</div>
+                <div style="font-size: 13px; color: #64748b; margin-top: 2px;">Deep Charcoal &amp; Neon Orange</div>
+                <div class="theme-color-chips">
+                  <div class="color-chip" style="background: #09090b;"></div>
+                  <div class="color-chip" style="background: #18181b;"></div>
+                  <div class="color-chip" style="background: #FF5A1F;"></div>
+                  <div class="color-chip" style="background: #ffffff;"></div>
+                </div>
+              </div>
+              <div class="theme-preset-card" id="themeCard-warm-light" onclick="selectThemePreset('warm-light')">
+                <div style="font-weight: 700; font-size: 16px;">Warm Light</div>
+                <div style="font-size: 13px; color: #64748b; margin-top: 2px;">Soft Warm Cream &amp; Terracotta Orange</div>
+                <div class="theme-color-chips">
+                  <div class="color-chip" style="background: #fdfbf7;"></div>
+                  <div class="color-chip" style="background: #f4eee5;"></div>
+                  <div class="color-chip" style="background: #E65100;"></div>
+                  <div class="color-chip" style="background: #1c1917;"></div>
+                </div>
+              </div>
+              <div class="theme-preset-card" id="themeCard-mono-orange" onclick="selectThemePreset('mono-orange')">
+                <div style="font-weight: 700; font-size: 16px;">Mono Orange</div>
+                <div style="font-size: 13px; color: #64748b; margin-top: 2px;">Minimalist Contrast with Bold Orange</div>
+                <div class="theme-color-chips">
+                  <div class="color-chip" style="background: #ffffff;"></div>
+                  <div class="color-chip" style="background: #fff5f0;"></div>
+                  <div class="color-chip" style="background: #FF4500;"></div>
+                  <div class="color-chip" style="background: #111111;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Token-by-Token Color Editor -->
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Color Token Editor</h3>
+                <p class="card-subtitle">Fine-tune individual CSS color variables with live hex codes and color pickers.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="resetThemeDefaults()"><i class="ph-bold ph-arrow-counter-clockwise"></i> Reset to Defaults</button>
+            </div>
+
+            <div class="color-token-row">
+              <div style="flex: 1;">
+                <strong>Brand Accent Orange</strong>
+                <div style="font-size: 12px; color: #64748b;">Primary action buttons, active tags, and highlights</div>
+              </div>
+              <div class="color-input-wrap">
+                <input type="color" id="tokenBrandOrange" class="color-picker" onchange="syncColorInput(this, 'tokenBrandOrangeHex')" />
+                <input type="text" id="tokenBrandOrangeHex" class="form-control color-hex-input" maxlength="7" onchange="syncHexInput(this, 'tokenBrandOrange')" />
+              </div>
+            </div>
+
+            <div class="color-token-row">
+              <div style="flex: 1;">
+                <strong>Lime Button Dot Accent</strong>
+                <div style="font-size: 12px; color: #64748b;">Dot circle animation color inside buttons</div>
+              </div>
+              <div class="color-input-wrap">
+                <input type="color" id="tokenBrandLime" class="color-picker" onchange="syncColorInput(this, 'tokenBrandLimeHex')" />
+                <input type="text" id="tokenBrandLimeHex" class="form-control color-hex-input" maxlength="7" onchange="syncHexInput(this, 'tokenBrandLime')" />
+              </div>
+            </div>
+
+            <div class="color-token-row">
+              <div style="flex: 1;">
+                <strong>Light Surface Background</strong>
+                <div style="font-size: 12px; color: #64748b;">Primary light mode background color</div>
+              </div>
+              <div class="color-input-wrap">
+                <input type="color" id="tokenBgLight" class="color-picker" onchange="syncColorInput(this, 'tokenBgLightHex')" />
+                <input type="text" id="tokenBgLightHex" class="form-control color-hex-input" maxlength="7" onchange="syncHexInput(this, 'tokenBgLight')" />
+              </div>
+            </div>
+
+            <div class="color-token-row">
+              <div style="flex: 1;">
+                <strong>Dark Section Background</strong>
+                <div style="font-size: 12px; color: #64748b;">Footer, service section, and dark banner surfaces</div>
+              </div>
+              <div class="color-input-wrap">
+                <input type="color" id="tokenBgDark" class="color-picker" onchange="syncColorInput(this, 'tokenBgDarkHex')" />
+                <input type="text" id="tokenBgDarkHex" class="form-control color-hex-input" maxlength="7" onchange="syncHexInput(this, 'tokenBgDark')" />
+              </div>
+            </div>
+
+            <div class="color-token-row">
+              <div style="flex: 1;">
+                <strong>Light Card Background</strong>
+                <div style="font-size: 12px; color: #64748b;">Background for project cards and testimonial cards</div>
+              </div>
+              <div class="color-input-wrap">
+                <input type="color" id="tokenCardBgLight" class="color-picker" onchange="syncColorInput(this, 'tokenCardBgLightHex')" />
+                <input type="text" id="tokenCardBgLightHex" class="form-control color-hex-input" maxlength="7" onchange="syncHexInput(this, 'tokenCardBgLight')" />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary" onclick="saveThemeTokens()"><i class="ph-bold ph-floppy-disk"></i> Apply &amp; Save Theme</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 15: WEBSITE SETTINGS -->
+        <!-- ============================================================== -->
+        <section id="sec-settings-page" class="admin-section">
+          <form id="settingsForm">
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">SEO &amp; General Configuration</h3>
+                  <p class="card-subtitle">Global meta titles, descriptions, canonical URLs, and copyright settings.</p>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Site Title</label>
+                  <input type="text" class="form-control" id="settingsSiteTitle" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Tagline</label>
+                  <input type="text" class="form-control" id="settingsTagline" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Canonical Domain URL</label>
+                <input type="url" class="form-control" id="settingsCanonicalDomain" placeholder="https://moizstudio.me" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Default Meta Description</label>
+                <textarea class="form-control" id="settingsMetaDesc" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">SEO Keywords (comma separated)</label>
+                <textarea class="form-control" id="settingsKeywords" rows="2"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Copyright Year</label>
+                  <input type="text" class="form-control" id="settingsCopyrightYear" placeholder="2026" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Contact Notification Email</label>
+                  <input type="email" class="form-control" id="settingsNotificationEmail" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary"><i class="ph-bold ph-floppy-disk"></i> Save Settings</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 16: ADMIN ACCOUNT & SECURITY -->
+        <!-- ============================================================== -->
+        <section id="sec-account-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Admin Credentials</h3>
+                <p class="card-subtitle">Update your username or password. Requires current password verification.</p>
+              </div>
+            </div>
+
+            <form id="changePasswordForm" style="max-width: 500px;">
+              <div class="form-group">
+                <label class="form-label">New Username (leave unchanged if not changing)</label>
+                <input type="text" class="form-control" id="accNewUsername" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Current Password (Required)</label>
+                <input type="password" class="form-control" id="accCurrentPassword" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password (minimum 8 characters)</label>
+                <input type="password" class="form-control" id="accNewPassword" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" id="accConfirmPassword" />
+              </div>
+              <button type="submit" class="btn btn-primary"><i class="ph-bold ph-key"></i> Update Credentials</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECTION 17: BACKUPS & RESTORE -->
+        <!-- ============================================================== -->
+        <section id="sec-backups-page" class="admin-section">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Automated Backup Snapshots</h3>
+                <p class="card-subtitle">An automatic backup snapshot is created before every save (keeping the last 20 snapshots). You can restore any snapshot with a single click.</p>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary btn-sm" onclick="exportContentJson()"><i class="ph-bold ph-download-simple"></i> Export Content JSON</button>
+                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('importJsonFile').click()"><i class="ph-bold ph-upload-simple"></i> Import Content JSON</button>
+                <input type="file" id="importJsonFile" accept=".json" style="display: none;" onchange="handleImportJson(this)" />
+              </div>
+            </div>
+            <div id="backupsListContainer"></div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODALS -->
+  <!-- ============================================================== -->
+
+  <!-- Add/Edit Project Modal -->
+  <div id="projectModal" class="admin-modal-overlay">
+    <div class="admin-modal" style="max-width: 850px;">
+      <div class="modal-header">
+        <h3 id="projectModalTitle" class="card-title">Add New Project</h3>
+        <button class="credentials-banner-close" onclick="closeProjectModal()"><i class="ph-bold ph-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="projectForm">
+          <input type="hidden" id="projId" />
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Project Title *</label>
+              <input type="text" class="form-control" id="projTitle" required placeholder="e.g. Mike Nellis" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">URL Slug *</label>
+              <input type="text" class="form-control" id="projSlug" required placeholder="e.g. mike-nellis" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Orange Subtitle Line</label>
+              <input type="text" class="form-control" id="projCategorySubtitle" placeholder="WIX STUDIO WEBSITE DESIGN & DEVELOPMENT" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role Subtitle</label>
+              <input type="text" class="form-control" id="projSubtitle" placeholder="Personal Brand & Consultant" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Industry</label>
+              <select class="form-select" id="projIndustry"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select class="form-select" id="projStatus">
+                <option value="published">Published</option>
+                <option value="draft">Draft (Hidden)</option>
+              </select>
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-top: 28px;">
+              <input type="checkbox" id="projFeatured" style="width: 18px; height: 18px;" />
+              <label for="projFeatured" style="font-size: 14px; font-weight: 600; cursor: pointer;">Featured in Slideshow &amp; Home</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Card Short Description</label>
+            <textarea class="form-control" id="projShortDesc" rows="2" placeholder="Brief summary shown on the project card..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Live Website URL</label>
+              <input type="url" class="form-control" id="projLiveUrl" placeholder="https://..." />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Card Thumbnail Image</label>
+              <select class="form-select" id="projImageSelect" style="margin-bottom: 6px;">
+                <option value="">-- Choose from uploaded library by name --</option>
+              </select>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="text" class="form-control" id="projImage" placeholder="/assets/images/work/..." />
+                <div id="projImagePreviewWrap" style="width: 42px; height: 42px; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; flex-shrink: 0; background: #f8fafc; display: flex; align-items: center; justify-content: center;">
+                  <img id="projImagePreview" src="" alt="" style="width: 100%; height: 100%; object-fit: cover; display: none;" />
+                  <i id="projImagePlaceholder" class="ph-bold ph-image" style="font-size: 20px; color: #94a3b8;"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
+          <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #FF5A1F;">Case Study Breakdown Fields</h4>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Client Name</label>
+              <input type="text" class="form-control" id="projClient" placeholder="e.g. SOPHIA" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Platform</label>
+              <input type="text" class="form-control" id="projPlatform" placeholder="WIX STUDIO" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Services Provided</label>
+              <input type="text" class="form-control" id="projServicesBox" placeholder="WIX STUDIO DEVELOPMENT" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">The Challenge Description</label>
+            <textarea class="form-control" id="projChallengeDesc" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">The Solution Description</label>
+            <textarea class="form-control" id="projSolutionDesc" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">The Outcome Description</label>
+            <textarea class="form-control" id="projOutcomeDesc" rows="2"></textarea>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
+          <div style="margin-bottom: 12px;">
+            <h4 style="font-size: 15px; font-weight: 700; color: #FF5A1F; margin: 0;">Case Study Visuals Gallery (Carousel Slider)</h4>
+            <p style="font-size: 13px; color: #64748b; margin: 2px 0 0 0;">These visuals render directly in the "PROJECT VISUALS" carousel on this project's case study page.</p>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #334155;">+ Add Visual to Carousel:</div>
+            <div class="form-row" style="margin-bottom: 8px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" style="font-size: 12px;">Select Uploaded Image</label>
+                <select class="form-select" id="galleryMediaSelect">
+                  <option value="">-- Choose from uploaded library by name --</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" style="font-size: 12px;">Or Enter Custom Image URL</label>
+                <input type="text" class="form-control" id="newGallerySrc" placeholder="/assets/images/work/..." />
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: flex-end;">
+              <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                <label class="form-label" style="font-size: 12px;">Alt Text / Caption (optional)</label>
+                <input type="text" class="form-control" id="newGalleryAlt" placeholder="e.g. Visual Mockup 2" />
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="addProjectGallerySlide()" style="white-space: nowrap; height: 38px;">
+                <i class="ph-bold ph-plus"></i> Add Slide
+              </button>
+            </div>
+          </div>
+
+          <div id="projectGalleryList" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+            <!-- Rendered dynamically with previews, alt text and remove buttons -->
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Client Testimonial Quote</label>
+              <textarea class="form-control" id="projTestimonialQuote" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Testimonial Author &amp; Role</label>
+              <input type="text" class="form-control" id="projTestimonialAuthor" placeholder="Author name" style="margin-bottom: 8px;" />
+              <input type="text" class="form-control" id="projTestimonialRole" placeholder="Author title or company" />
+            </div>
+          </div>
+
+          <div class="modal-footer" style="padding-left: 0; padding-right: 0;">
+            <button type="button" class="btn btn-secondary" onclick="closeProjectModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="ph-bold ph-floppy-disk"></i> Save Project</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Testimonial Modal -->
+  <div id="testimonialModal" class="admin-modal-overlay">
+    <div class="admin-modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 id="testimonialModalTitle" class="card-title">Add Testimonial</h3>
+        <button class="credentials-banner-close" onclick="closeTestimonialModal()"><i class="ph-bold ph-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="testimonialForm">
+          <input type="hidden" id="testId" />
+          <div class="form-group">
+            <label class="form-label">Client Quote *</label>
+            <textarea class="form-control" id="testQuote" rows="4" required placeholder="What the client said..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Client Name *</label>
+              <input type="text" class="form-control" id="testAuthor" required placeholder="e.g. Sophia" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role or Company *</label>
+              <input type="text" class="form-control" id="testRole" required placeholder="e.g. Personal Brand" />
+            </div>
+          </div>
+          <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="testVisible" checked style="width: 18px; height: 18px;" />
+            <label for="testVisible" style="font-size: 14px; font-weight: 600; cursor: pointer;">Visible on Live Website</label>
+          </div>
+          <div class="modal-footer" style="padding-left: 0; padding-right: 0;">
+            <button type="button" class="btn btn-secondary" onclick="closeTestimonialModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="ph-bold ph-floppy-disk"></i> Save Review</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Service Modal -->
+  <div id="serviceModal" class="admin-modal-overlay">
+    <div class="admin-modal" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 id="serviceModalTitle" class="card-title">Add Service</h3>
+        <button class="credentials-banner-close" onclick="closeServiceModal()"><i class="ph-bold ph-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="serviceForm">
+          <input type="hidden" id="srvId" />
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Service Title *</label>
+              <input type="text" class="form-control" id="srvTitle" required placeholder="e.g. Wix Studio Design" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Step Number</label>
+              <input type="text" class="form-control" id="srvNumber" placeholder="e.g. 01" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" id="srvDesc" rows="3" placeholder="Service description..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bullet Items (one per line)</label>
+            <textarea class="form-control" id="srvBullets" rows="3" placeholder="Wix Studio&#10;Responsive Web Design&#10;UI/UX Design"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Price (Optional)</label>
+              <input type="text" class="form-control" id="srvPrice" placeholder="e.g. $500" />
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-top: 28px;">
+              <input type="checkbox" id="srvShowPrice" style="width: 18px; height: 18px;" />
+              <label for="srvShowPrice" style="font-size: 14px; font-weight: 600; cursor: pointer;">Show Price on Website</label>
+            </div>
+          </div>
+          <div class="modal-footer" style="padding-left: 0; padding-right: 0;">
+            <button type="button" class="btn btn-secondary" onclick="closeServiceModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="ph-bold ph-floppy-disk"></i> Save Service</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Media Modal -->
+  <div id="mediaUploadModal" class="admin-modal-overlay">
+    <div class="admin-modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="card-title">Upload Image to Media Library</h3>
+        <button class="credentials-banner-close" onclick="closeMediaUploadModal()"><i class="ph-bold ph-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="mediaUploadForm">
+          <div class="form-group">
+            <label class="form-label">Select Image Files (JPG, PNG, WebP, SVG)</label>
+            <input type="file" id="mediaFileInput" class="form-control" multiple accept="image/*" required />
+            <div class="form-help">Images are automatically optimized and converted to modern WebP.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Custom Slot / Label (Optional)</label>
+            <input type="text" id="mediaSlotInput" class="form-control" placeholder="e.g. Project Mockup, Platform Logo" />
+          </div>
+          <div class="modal-footer" style="padding-left: 0; padding-right: 0;">
+            <button type="button" class="btn btn-secondary" onclick="closeMediaUploadModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="ph-bold ph-upload-simple"></i> Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="adminToastContainer"></div>
+
+  <!-- Admin JavaScript Application -->
+  <script src="/admin/js/admin.js"></script>
+</body>
+</html>

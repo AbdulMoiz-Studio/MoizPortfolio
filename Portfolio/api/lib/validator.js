@@ -58,8 +58,8 @@ function validateContactInput(data = {}) {
     };
   }
 
-  // 1. firstName: 1-60 chars
-  const rawFirstName = typeof data.firstName === 'string' ? data.firstName.trim() : '';
+  // 1. firstName / name: 1-60 chars
+  const rawFirstName = typeof data.firstName === 'string' ? data.firstName.trim() : (typeof data.name === 'string' ? data.name.trim() : '');
   const firstName = sanitizeHeader(rawFirstName);
   if (!firstName) {
     errors.push('First Name is required.');

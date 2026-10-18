@@ -16,82 +16,88 @@
 
   ////////////////////////////////////////////////////
   // 01. Brand Js
-  var slider = new Swiper(".brand-active", {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: true,
-    speed: 2500,
-    autoplay: true,
-    breakpoints: {
-      380: {
-        slidesPerView: 1,
+  if ($(".brand-active").length) {
+    var slider = new Swiper(".brand-active", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      speed: 2500,
+      autoplay: true,
+      breakpoints: {
+        380: {
+          slidesPerView: 1,
+        },
+        576: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        992: {
+          slidesPerView: 3,
+        },
+        1200: {
+          slidesPerView: 5,
+        },
+        1600: {
+          slidesPerView: 6,
+        },
       },
-      576: {
-        slidesPerView: 2,
-      },
-      768: {
-        slidesPerView: 2,
-      },
-      992: {
-        slidesPerView: 3,
-      },
-      1200: {
-        slidesPerView: 5,
-      },
-      1600: {
-        slidesPerView: 6,
-      },
-    },
-  });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 02. Testimonial Js
-  var slider = new Swiper(".testimonial-active", {
-    slidesPerView: 3,
-    spaceBetween: 10,
-    autoplay: true,
-    speed: 1500,
-    loop: true,
-    breakpoints: {
-      1200: {
-        slidesPerView: 3,
+  if ($(".testimonial-active").length) {
+    var slider = new Swiper(".testimonial-active", {
+      slidesPerView: 3,
+      spaceBetween: 10,
+      autoplay: true,
+      speed: 1500,
+      loop: true,
+      breakpoints: {
+        1200: {
+          slidesPerView: 3,
+        },
+        992: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 1,
+        },
+        576: {
+          slidesPerView: 1,
+        },
+        0: {
+          slidesPerView: 1,
+        },
       },
-      992: {
-        slidesPerView: 2,
+      // Navigation arrows
+      navigation: {
+        nextEl: ".slider-next",
+        prevEl: ".slider-prev",
       },
-      768: {
-        slidesPerView: 1,
-      },
-      576: {
-        slidesPerView: 1,
-      },
-      0: {
-        slidesPerView: 1,
-      },
-    },
-    // Navigation arrows
-    navigation: {
-      nextEl: ".slider-next",
-      prevEl: ".slider-prev",
-    },
-  });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 03. Service Js
-  var slider = new Swiper(".service-active", {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: true,
-    speed: 3500,
-    autoplay: true,
-    pagination: {
-      el: "#paginations",
-      type: "custom",
-      renderCustom: function (swiper, current, total) {
-        return `[${current}/${total}]`;
+  if ($(".service-active").length) {
+    var slider = new Swiper(".service-active", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      speed: 3500,
+      autoplay: true,
+      pagination: {
+        el: "#paginations",
+        type: "custom",
+        renderCustom: function (swiper, current, total) {
+          return `[${current}/${total}]`;
+        },
       },
-    },
-  });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 04. Marquee Js
@@ -111,49 +117,52 @@
 
   ////////////////////////////////////////////////////
   // 06. Testimonial Three Js
-  var testimonialSlider = new Swiper(".testimonial-three-active", {
-    slidesPerView: 1,
-    spaceBetween: 24,
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    navigation: {
-      nextEl: ".testimonial-slider-next",
-      prevEl: ".testimonial-slider-prev",
-    },
-    breakpoints: {
-      0: {
-        slidesPerView: 1,
-        spaceBetween: 16,
+  if ($(".testimonial-three-active").length) {
+    var testimonialSlider = new Swiper(".testimonial-three-active", {
+      slidesPerView: 1,
+      spaceBetween: 24,
+      speed: 600,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
       },
-      768: {
-        slidesPerView: 2,
-        spaceBetween: 24,
+      navigation: {
+        nextEl: ".testimonial-slider-next",
+        prevEl: ".testimonial-slider-prev",
       },
-      992: {
-        slidesPerView: 2,
-        spaceBetween: 24,
+      breakpoints: {
+        0: {
+          slidesPerView: 1,
+          spaceBetween: 16,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 24,
+        },
+        992: {
+          slidesPerView: 2,
+          spaceBetween: 24,
+        },
+        1200: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+        },
       },
-      1200: {
-        slidesPerView: 3,
-        spaceBetween: 30,
-      },
-    },
-  });
+    });
+  }
 
   ////////////////////////////////////////////////////
   // 07. Case Study Visuals Slider Js
   if ($(".case-study-visuals-slider").length) {
+    var slideCount = $(".case-study-visuals-slider .swiper-slide").length;
     var visualsSlider = new Swiper(".case-study-visuals-slider", {
       slidesPerView: "auto",
       centeredSlides: true,
       spaceBetween: 28,
       speed: 700,
-      loop: true,
+      loop: slideCount > 1,
       grabCursor: true,
       keyboard: {
         enabled: true,

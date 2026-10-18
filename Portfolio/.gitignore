@@ -14,14 +14,16 @@ package-lock.json
 dist/
 build/
 
-# Logs
+# Logs and backups
 logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+data/backups/
 
 # OS and Editor files
+*.zip
 .DS_Store
 Thumbs.db
 .vscode/

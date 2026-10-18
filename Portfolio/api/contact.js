@@ -155,6 +155,24 @@ module.exports = async function handler(req, res) {
 
   const { firstName, email, message } = validation.data;
 
+  // Save inquiry to Admin Inbox in Database
+  try {
+    const db = require('../data/db');
+    const content = db.readContent();
+    if (!content.messages) content.messages = [];
+    content.messages.unshift({
+      id: 'msg-' + Date.now(),
+      name: firstName,
+      email: email,
+      message: message,
+      submittedAt: new Date().toISOString(),
+      read: false
+    });
+    await db.saveContent(content);
+  } catch (err) {
+    console.error('[Inbox DB Error]', err);
+  }
+
   // 6. Format Pakistan Standard Time (Asia/Karachi)
   let submittedAt;
   try {
