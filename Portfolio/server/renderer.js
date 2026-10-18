@@ -11,6 +11,22 @@ const path = require('path');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 
+function safeWriteFileSync(filePath, content, encoding = 'utf8') {
+  try {
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      try { fs.mkdirSync(dir, { recursive: true }); } catch (e) {}
+    }
+    fs.writeFileSync(filePath, content, encoding);
+  } catch (err) {
+    if (err.code === 'EROFS' || err.code === 'EACCES' || process.env.VERCEL) {
+      console.warn(`[Renderer] Read-only filesystem detected, skipped write to ${path.basename(filePath)}`);
+    } else {
+      console.error(`[Renderer Write Error] ${filePath}:`, err.message);
+    }
+  }
+}
+
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -140,7 +156,7 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = WORKS_DATA;
 }
 `;
-  fs.writeFileSync(filePath, jsContent, 'utf8');
+  safeWriteFileSync(filePath, jsContent, 'utf8');
 }
 
 /**
@@ -208,7 +224,7 @@ function renderSitemap(content) {
   }
 
   xml += `</urlset>\n`;
-  fs.writeFileSync(path.join(ROOT_DIR, 'sitemap.xml'), xml, 'utf8');
+  safeWriteFileSync(path.join(ROOT_DIR, 'sitemap.xml'), xml, 'utf8');
 }
 
 /**
@@ -220,9 +236,11 @@ function renderCaseStudyPage(project, allProjects, content) {
   const workDir = path.join(ROOT_DIR, 'work');
   const projectFolder = path.join(workDir, slug);
 
-  if (!fs.existsSync(projectFolder)) {
-    fs.mkdirSync(projectFolder, { recursive: true });
-  }
+  try {
+    if (!fs.existsSync(projectFolder)) {
+      fs.mkdirSync(projectFolder, { recursive: true });
+    }
+  } catch (e) {}
 
   // Filter other published projects for Discover More
   const otherProjects = allProjects
@@ -959,8 +977,8 @@ function renderCaseStudyPage(project, allProjects, content) {
   </body>
 </html>`;
 
-  fs.writeFileSync(path.join(workDir, `${slug}.html`), html, 'utf8');
-  fs.writeFileSync(path.join(projectFolder, 'index.html'), html, 'utf8');
+  safeWriteFileSync(path.join(workDir, `${slug}.html`), html, 'utf8');
+  safeWriteFileSync(path.join(projectFolder, 'index.html'), html, 'utf8');
 }
 
 /**

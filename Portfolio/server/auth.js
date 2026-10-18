@@ -12,16 +12,53 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const db = require('../data/db');
 
-// In-memory session store & rate limiter
+// In-memory session store, blacklist & rate limiter
 const activeSessions = new Map();
+const revokedTokens = new Set();
 const loginAttempts = new Map(); // ip/user -> { count, lockoutUntil }
 
 const MAX_FAILED_ATTEMPTS = 5;
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+const SESSION_SECRET = process.env.SESSION_SECRET || 'moiz_studio_portfolio_secure_session_salt_8483_live_production';
 
 function generateToken() {
   return crypto.randomBytes(32).toString('hex');
+}
+
+/**
+ * Create a cryptographically signed, stateless session token
+ */
+function createSessionToken(payload) {
+  const json = JSON.stringify(payload);
+  const data = Buffer.from(json, 'utf8').toString('base64url');
+  const hmac = crypto.createHmac('sha256', SESSION_SECRET).update(data).digest('base64url');
+  return `${data}.${hmac}`;
+}
+
+/**
+ * Verify a cryptographically signed session token
+ */
+function verifySessionToken(token) {
+  if (!token || typeof token !== 'string' || revokedTokens.has(token)) return null;
+  const parts = token.split('.');
+  if (parts.length !== 2) return null;
+  const [data, sig] = parts;
+  try {
+    const expectedHmac = crypto.createHmac('sha256', SESSION_SECRET).update(data).digest('base64url');
+    if (sig.length !== expectedHmac.length) return null;
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedHmac))) {
+      return null;
+    }
+
+    const payload = JSON.parse(Buffer.from(data, 'base64url').toString('utf8'));
+    if (!payload || !payload.expiresAt || payload.expiresAt < Date.now()) {
+      return null;
+    }
+    return payload;
+  } catch (e) {
+    return null;
+  }
 }
 
 function getClientIdentifier(req) {
@@ -101,20 +138,27 @@ async function login(username, password, clientIp) {
   // Login successful
   resetAttempts(clientIp);
 
-  const sessionId = generateToken();
   const csrfToken = generateToken();
   const expiresAt = Date.now() + SESSION_TTL_MS;
 
-  activeSessions.set(sessionId, {
+  const sessionPayload = {
     username: admin.username,
     csrfToken,
     expiresAt,
-    createdAt: Date.now()
-  });
+    v: admin.tokenVersion || 1,
+    nonce: generateToken()
+  };
 
-  // Update last login in db
-  admin.lastLogin = new Date().toISOString();
-  await db.saveContent(content);
+  const sessionId = createSessionToken(sessionPayload);
+  activeSessions.set(sessionId, sessionPayload);
+
+  // Update last login in db safely
+  try {
+    admin.lastLogin = new Date().toISOString();
+    await db.saveContent(content);
+  } catch (err) {
+    console.warn('[DB Warning] Could not persist lastLogin on read-only system:', err.message);
+  }
 
   return {
     success: true,
@@ -130,7 +174,8 @@ async function login(username, password, clientIp) {
  * Logout session
  */
 function logout(sessionId) {
-  if (sessionId && activeSessions.has(sessionId)) {
+  if (sessionId) {
+    revokedTokens.add(sessionId);
     activeSessions.delete(sessionId);
     return true;
   }
@@ -149,11 +194,21 @@ function invalidateAllSessions() {
  */
 function requireAdmin(req, res, next) {
   const sessionId = req.cookies && req.cookies.admin_session;
-  if (!sessionId) {
+  if (!sessionId || revokedTokens.has(sessionId)) {
     return res.status(401).json({ error: 'Unauthorized: No active admin session found.' });
   }
 
-  const session = activeSessions.get(sessionId);
+  // 1. Check in-memory session (fast path)
+  let session = activeSessions.get(sessionId);
+
+  // 2. Stateless cryptographic token verification (for serverless instances)
+  if (!session) {
+    session = verifySessionToken(sessionId);
+    if (session) {
+      activeSessions.set(sessionId, session);
+    }
+  }
+
   if (!session) {
     return res.status(401).json({ error: 'Unauthorized: Session invalid or expired.' });
   }
@@ -163,8 +218,21 @@ function requireAdmin(req, res, next) {
     return res.status(401).json({ error: 'Unauthorized: Session has expired. Please log in again.' });
   }
 
-  // Extend session
-  session.expiresAt = Date.now() + SESSION_TTL_MS;
+  // Validate admin still exists and token version matches
+  try {
+    const content = db.readContent();
+    if (content.admin.username !== session.username) {
+      activeSessions.delete(sessionId);
+      return res.status(401).json({ error: 'Unauthorized: User account changed.' });
+    }
+    if (content.admin.tokenVersion && session.v && content.admin.tokenVersion !== session.v) {
+      activeSessions.delete(sessionId);
+      return res.status(401).json({ error: 'Unauthorized: Password was changed. Please log in again.' });
+    }
+  } catch (e) {
+    // If db read has warning, continue with cryptographically verified token
+  }
+
   req.adminSession = session;
   req.adminSessionId = sessionId;
 
@@ -209,6 +277,7 @@ async function changeCredentials(currentPassword, newUsername, newPassword) {
   }
 
   admin.isDefaultCredentials = false;
+  admin.tokenVersion = (admin.tokenVersion || 1) + 1;
   await db.saveContent(content);
 
   // Invalidate all existing sessions for security

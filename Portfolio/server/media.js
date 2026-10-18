@@ -14,10 +14,18 @@ const sharp = require('sharp');
 const db = require('../data/db');
 
 const UPLOADS_DIR = path.resolve(__dirname, '..', 'uploads');
+const TMP_UPLOADS_DIR = path.join('/tmp', 'uploads');
 
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-}
+try {
+  if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  }
+} catch (e) {}
+try {
+  if (!fs.existsSync(TMP_UPLOADS_DIR)) {
+    fs.mkdirSync(TMP_UPLOADS_DIR, { recursive: true });
+  }
+} catch (e) {}
 
 // Memory storage for immediate Sharp processing
 const storage = multer.memoryStorage();
@@ -54,25 +62,47 @@ async function processAndSaveImage(buffer, originalName, mimetype, customSlot = 
   let height = 0;
   let format = '';
 
+  let activeUploadsDir = UPLOADS_DIR;
+  try {
+    if (!fs.existsSync(UPLOADS_DIR)) {
+      fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+    }
+  } catch (err) {
+    activeUploadsDir = TMP_UPLOADS_DIR;
+    try {
+      if (!fs.existsSync(TMP_UPLOADS_DIR)) {
+        fs.mkdirSync(TMP_UPLOADS_DIR, { recursive: true });
+      }
+    } catch (e) {}
+  }
+
   if (mimetype === 'image/svg+xml') {
     finalFilename = `${baseName}-${timestamp}.svg`;
-    const targetPath = path.join(UPLOADS_DIR, finalFilename);
-    fs.writeFileSync(targetPath, buffer);
+    const targetPath = path.join(activeUploadsDir, finalFilename);
+    try {
+      fs.writeFileSync(targetPath, buffer);
+    } catch (e) {
+      const tmpPath = path.join(TMP_UPLOADS_DIR, finalFilename);
+      fs.writeFileSync(tmpPath, buffer);
+    }
     finalUrl = `/uploads/${finalFilename}`;
     format = 'svg';
   } else {
     // Convert to optimized WebP
     finalFilename = `${baseName}-${timestamp}.webp`;
-    const targetPath = path.join(UPLOADS_DIR, finalFilename);
+    let targetPath = path.join(activeUploadsDir, finalFilename);
 
     const image = sharp(buffer);
     const metadata = await image.metadata();
     width = metadata.width || 0;
     height = metadata.height || 0;
 
-    await image
-      .webp({ quality: 85 })
-      .toFile(targetPath);
+    try {
+      await image.webp({ quality: 85 }).toFile(targetPath);
+    } catch (writeErr) {
+      targetPath = path.join(TMP_UPLOADS_DIR, finalFilename);
+      await sharp(buffer).webp({ quality: 85 }).toFile(targetPath);
+    }
 
     finalUrl = `/uploads/${finalFilename}`;
     format = 'webp';
@@ -107,10 +137,14 @@ async function replaceExistingImage(existingUrl, buffer, mimetype) {
   const targetPath = path.resolve(__dirname, '..', relativePath);
 
   if (fs.existsSync(targetPath)) {
-    if (targetPath.endsWith('.svg') || mimetype === 'image/svg+xml') {
-      fs.writeFileSync(targetPath, buffer);
-    } else {
-      await sharp(buffer).toFile(targetPath);
+    try {
+      if (targetPath.endsWith('.svg') || mimetype === 'image/svg+xml') {
+        fs.writeFileSync(targetPath, buffer);
+      } else {
+        await sharp(buffer).toFile(targetPath);
+      }
+    } catch (e) {
+      console.warn('[Media Replace Warning]', e.message);
     }
   } else {
     // If not on disk, save to uploads

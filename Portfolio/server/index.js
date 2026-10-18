@@ -20,27 +20,52 @@ const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const STATIC_DIR = path.resolve(__dirname, '..');
 
+// Trust reverse proxies (Vercel, Cloudflare, etc.) for HTTPS detection & client IP
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(cookieParser());
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
-// Ensure database and static assets are initialized and rendered
+// URL normalization for Vercel Serverless Function rewrites & query params
+app.use((req, res, next) => {
+  if (req.url.startsWith('/api/server') || req.url.startsWith('/server')) {
+    try {
+      const parsed = new URL(req.url, 'http://localhost');
+      const match = parsed.searchParams.get('match') || parsed.searchParams.get('slug');
+      if (match) {
+        req.url = '/api/admin/' + match;
+      } else if (req.headers['x-matched-path']) {
+        req.url = req.headers['x-matched-path'];
+      }
+    } catch (e) {}
+  }
+  next();
+});
+
+// Ensure database and static assets are initialized and rendered safely
 try {
   const content = db.readContent();
   renderer.renderAll(content);
 } catch (e) {
-  console.error('[Startup Sync Warning]', e.message);
+  console.warn('[Startup Sync Warning]', e.message);
 }
 
 // Disable x-powered-by header
 app.disable('x-powered-by');
 
-// Serve /uploads statically
+// Serve /uploads statically (both persistent uploads and /tmp/uploads)
 app.use('/uploads', express.static(media.UPLOADS_DIR, {
   maxAge: '7d',
   immutable: true
 }));
+try {
+  const tmpUploads = path.join('/tmp', 'uploads');
+  if (fs.existsSync(tmpUploads)) {
+    app.use('/uploads', express.static(tmpUploads, { maxAge: '7d' }));
+  }
+} catch (e) {}
 
 // Serve /admin static assets
 app.use('/admin', express.static(path.join(STATIC_DIR, 'admin')));
@@ -50,7 +75,7 @@ app.use('/admin', express.static(path.join(STATIC_DIR, 'admin')));
 // ==============================================================
 
 // Public Content API
-app.get('/api/content', (req, res) => {
+app.get(['/api/content', '/content'], (req, res) => {
   try {
     const content = db.readContent();
     const safeContent = JSON.parse(JSON.stringify(content));
@@ -82,7 +107,7 @@ app.all(['/api/contact', '/api/contact/'], async (req, res) => {
 // ==============================================================
 
 // Login
-app.post('/api/admin/login', async (req, res) => {
+app.post(['/api/admin/login', '/admin/login'], async (req, res) => {
   const { username, password } = req.body || {};
   const clientIp = auth.getClientIdentifier(req);
 
@@ -95,8 +120,8 @@ app.post('/api/admin/login', async (req, res) => {
     return res.status(result.status || 401).json({ error: result.message });
   }
 
-  // Set secure httpOnly cookie
-  const isSecure = process.env.COOKIE_SECURE === 'true' || req.secure;
+  // Set secure httpOnly cookie (supports reverse proxies & Vercel HTTPS)
+  const isSecure = process.env.NODE_ENV === 'production' || process.env.COOKIE_SECURE === 'true' || req.secure || req.headers['x-forwarded-proto'] === 'https';
   res.cookie('admin_session', result.sessionId, {
     httpOnly: true,
     secure: isSecure,
@@ -114,7 +139,7 @@ app.post('/api/admin/login', async (req, res) => {
 });
 
 // Logout
-app.post('/api/admin/logout', (req, res) => {
+app.post(['/api/admin/logout', '/admin/logout'], (req, res) => {
   const sessionId = req.cookies && req.cookies.admin_session;
   auth.logout(sessionId);
   res.clearCookie('admin_session');
@@ -122,7 +147,8 @@ app.post('/api/admin/logout', (req, res) => {
 });
 
 // Check Session Status & Get Current Admin Data
-app.get('/api/admin/me', auth.requireAdmin, (req, res) => {
+// Check Session Status & Get Current Admin Data
+app.get(['/api/admin/me', '/admin/me'], auth.requireAdmin, (req, res) => {
   const content = db.readContent();
   res.json({
     authenticated: true,
@@ -134,7 +160,7 @@ app.get('/api/admin/me', auth.requireAdmin, (req, res) => {
 });
 
 // Change Password / Username
-app.post('/api/admin/change-password', auth.requireAdmin, async (req, res) => {
+app.post(['/api/admin/change-password', '/admin/change-password'], auth.requireAdmin, async (req, res) => {
   const { currentPassword, newUsername, newPassword, confirmPassword } = req.body || {};
 
   if (!currentPassword) {
@@ -162,7 +188,7 @@ app.post('/api/admin/change-password', auth.requireAdmin, async (req, res) => {
 // ==============================================================
 
 // Get Full Content for CMS
-app.get('/api/admin/content', auth.requireAdmin, (req, res) => {
+app.get(['/api/admin/content', '/admin/content'], auth.requireAdmin, (req, res) => {
   try {
     const content = db.readContent();
     const safeContent = JSON.parse(JSON.stringify(content));
@@ -174,7 +200,7 @@ app.get('/api/admin/content', auth.requireAdmin, (req, res) => {
 });
 
 // Update Full Content / Any Section
-app.put('/api/admin/content', auth.requireAdmin, async (req, res) => {
+app.put(['/api/admin/content', '/admin/content'], auth.requireAdmin, async (req, res) => {
   try {
     const current = db.readContent();
     const update = req.body;
@@ -198,7 +224,7 @@ app.put('/api/admin/content', auth.requireAdmin, async (req, res) => {
     }
 
     await db.saveContent(update);
-    renderer.renderAll(update);
+    try { renderer.renderAll(update); } catch (e) { console.warn('[Renderer Warning]', e.message); }
 
     res.json({ success: true, message: 'Content saved and site synchronized.' });
   } catch (err) {
@@ -208,7 +234,7 @@ app.put('/api/admin/content', auth.requireAdmin, async (req, res) => {
 });
 
 // Project CRUD: Create
-app.post('/api/admin/projects', auth.requireAdmin, async (req, res) => {
+app.post(['/api/admin/projects', '/admin/projects'], auth.requireAdmin, async (req, res) => {
   try {
     const content = db.readContent();
     const project = req.body;
@@ -237,7 +263,7 @@ app.post('/api/admin/projects', auth.requireAdmin, async (req, res) => {
 
     content.projects.push(project);
     await db.saveContent(content);
-    renderer.renderAll(content);
+    try { renderer.renderAll(content); } catch (e) { console.warn('[Renderer Warning]', e.message); }
 
     res.json({ success: true, project });
   } catch (err) {
@@ -246,7 +272,7 @@ app.post('/api/admin/projects', auth.requireAdmin, async (req, res) => {
 });
 
 // Project CRUD: Update
-app.put('/api/admin/projects/:slug', auth.requireAdmin, async (req, res) => {
+app.put(['/api/admin/projects/:slug', '/admin/projects/:slug'], auth.requireAdmin, async (req, res) => {
   try {
     const { slug } = req.params;
     const content = db.readContent();
@@ -259,12 +285,12 @@ app.put('/api/admin/projects/:slug', auth.requireAdmin, async (req, res) => {
     const updated = Object.assign({}, content.projects[idx], req.body);
     // If slug changed, delete old page
     if (updated.slug !== slug) {
-      renderer.deleteCaseStudyPage(slug);
+      try { renderer.deleteCaseStudyPage(slug); } catch (e) {}
     }
 
     content.projects[idx] = updated;
     await db.saveContent(content);
-    renderer.renderAll(content);
+    try { renderer.renderAll(content); } catch (e) { console.warn('[Renderer Warning]', e.message); }
 
     res.json({ success: true, project: updated });
   } catch (err) {
@@ -273,7 +299,7 @@ app.put('/api/admin/projects/:slug', auth.requireAdmin, async (req, res) => {
 });
 
 // Project CRUD: Delete
-app.delete('/api/admin/projects/:slug', auth.requireAdmin, async (req, res) => {
+app.delete(['/api/admin/projects/:slug', '/admin/projects/:slug'], auth.requireAdmin, async (req, res) => {
   try {
     const { slug } = req.params;
     const content = db.readContent();
@@ -284,9 +310,9 @@ app.delete('/api/admin/projects/:slug', auth.requireAdmin, async (req, res) => {
     }
 
     content.projects.splice(idx, 1);
-    renderer.deleteCaseStudyPage(slug);
+    try { renderer.deleteCaseStudyPage(slug); } catch (e) {}
     await db.saveContent(content);
-    renderer.renderAll(content);
+    try { renderer.renderAll(content); } catch (e) { console.warn('[Renderer Warning]', e.message); }
 
     res.json({ success: true, message: `Project ${slug} deleted successfully.` });
   } catch (err) {
@@ -299,7 +325,7 @@ app.delete('/api/admin/projects/:slug', auth.requireAdmin, async (req, res) => {
 // ==============================================================
 
 // Upload Single / Multiple Images
-app.post('/api/admin/media/upload', auth.requireAdmin, media.uploadMiddleware.array('files', 10), async (req, res) => {
+app.post(['/api/admin/media/upload', '/admin/media/upload'], auth.requireAdmin, media.uploadMiddleware.array('files', 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: 'No files uploaded.' });
@@ -321,7 +347,7 @@ app.post('/api/admin/media/upload', auth.requireAdmin, media.uploadMiddleware.ar
 });
 
 // Replace Image In Place (keeps URL slot intact)
-app.post('/api/admin/media/replace', auth.requireAdmin, media.uploadMiddleware.single('file'), async (req, res) => {
+app.post(['/api/admin/media/replace', '/admin/media/replace'], auth.requireAdmin, media.uploadMiddleware.single('file'), async (req, res) => {
   try {
     const { targetUrl } = req.body;
     if (!targetUrl || !req.file) {
@@ -336,7 +362,7 @@ app.post('/api/admin/media/replace', auth.requireAdmin, media.uploadMiddleware.s
 });
 
 // Delete Image From Media Library
-app.delete('/api/admin/media/:id', auth.requireAdmin, async (req, res) => {
+app.delete(['/api/admin/media/:id', '/admin/media/:id'], auth.requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const content = db.readContent();
@@ -367,7 +393,7 @@ app.delete('/api/admin/media/:id', auth.requireAdmin, async (req, res) => {
 // ==============================================================
 
 // List Snapshots
-app.get('/api/admin/backups', auth.requireAdmin, (req, res) => {
+app.get(['/api/admin/backups', '/admin/backups'], auth.requireAdmin, (req, res) => {
   try {
     const backups = db.listBackups();
     res.json({ backups });
@@ -377,7 +403,7 @@ app.get('/api/admin/backups', auth.requireAdmin, (req, res) => {
 });
 
 // Restore Snapshot
-app.post('/api/admin/backups/restore', auth.requireAdmin, async (req, res) => {
+app.post(['/api/admin/backups/restore', '/admin/backups/restore'], auth.requireAdmin, async (req, res) => {
   try {
     const { filename } = req.body;
     if (!filename) {
@@ -385,7 +411,7 @@ app.post('/api/admin/backups/restore', auth.requireAdmin, async (req, res) => {
     }
 
     const restored = await db.restoreBackup(filename);
-    renderer.renderAll(restored);
+    try { renderer.renderAll(restored); } catch (e) { console.warn('[Renderer Warning]', e.message); }
 
     res.json({ success: true, message: `Successfully restored backup from ${filename}` });
   } catch (err) {
@@ -394,7 +420,7 @@ app.post('/api/admin/backups/restore', auth.requireAdmin, async (req, res) => {
 });
 
 // Export Content JSON
-app.get('/api/admin/export', auth.requireAdmin, (req, res) => {
+app.get(['/api/admin/export', '/admin/export'], auth.requireAdmin, (req, res) => {
   try {
     const content = db.readContent();
     const safe = JSON.parse(JSON.stringify(content));
@@ -409,7 +435,7 @@ app.get('/api/admin/export', auth.requireAdmin, (req, res) => {
 });
 
 // Import Content JSON
-app.post('/api/admin/import', auth.requireAdmin, async (req, res) => {
+app.post(['/api/admin/import', '/admin/import'], auth.requireAdmin, async (req, res) => {
   try {
     const importedData = req.body;
     if (!importedData || !importedData.settings || !importedData.projects) {
@@ -420,7 +446,7 @@ app.post('/api/admin/import', auth.requireAdmin, async (req, res) => {
     importedData.admin = current.admin; // Preserve current credentials
 
     await db.saveContent(importedData);
-    renderer.renderAll(importedData);
+    try { renderer.renderAll(importedData); } catch (e) { console.warn('[Renderer Warning]', e.message); }
 
     res.json({ success: true, message: 'Content imported and site synchronized successfully.' });
   } catch (err) {
@@ -433,13 +459,13 @@ app.post('/api/admin/import', auth.requireAdmin, async (req, res) => {
 // ==============================================================
 
 // List Messages
-app.get('/api/admin/inbox', auth.requireAdmin, (req, res) => {
+app.get(['/api/admin/inbox', '/admin/inbox'], auth.requireAdmin, (req, res) => {
   const content = db.readContent();
   res.json({ messages: content.messages || [] });
 });
 
 // Mark Read / Unread
-app.patch('/api/admin/inbox/:id', auth.requireAdmin, async (req, res) => {
+app.patch(['/api/admin/inbox/:id', '/admin/inbox/:id'], auth.requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { read } = req.body;
@@ -459,7 +485,7 @@ app.patch('/api/admin/inbox/:id', auth.requireAdmin, async (req, res) => {
 });
 
 // Delete Message
-app.delete('/api/admin/inbox/:id', auth.requireAdmin, async (req, res) => {
+app.delete(['/api/admin/inbox/:id', '/admin/inbox/:id'], auth.requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const content = db.readContent();
@@ -478,7 +504,7 @@ app.delete('/api/admin/inbox/:id', auth.requireAdmin, async (req, res) => {
 });
 
 // Export Inbox as CSV
-app.get('/api/admin/inbox/export-csv', auth.requireAdmin, (req, res) => {
+app.get(['/api/admin/inbox/export-csv', '/admin/inbox/export-csv'], auth.requireAdmin, (req, res) => {
   try {
     const content = db.readContent();
     const messages = content.messages || [];

@@ -80,7 +80,12 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       })
     });
 
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (parseErr) {
+      data = { error: `Server response error (${res.status} ${res.statusText})` };
+    }
 
     if (!res.ok || !data.success) {
       alertEl.style.display = 'block';
