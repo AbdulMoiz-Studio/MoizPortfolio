@@ -1,7 +1,7 @@
 /**
- * Vercel Serverless Function: GET /api/admin/export
+ * Vercel Serverless Function: GET /api/export
  */
-const app = require('../../server/index');
+const app = require('../server/index');
 
 module.exports = (req, res) => {
   req.url = '/api/admin/export';

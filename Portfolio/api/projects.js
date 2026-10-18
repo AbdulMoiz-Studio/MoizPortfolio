@@ -1,7 +1,7 @@
 /**
- * Vercel Serverless Function: /api/admin/projects
+ * Vercel Serverless Function: /api/projects
  */
-const app = require('../../server/index');
+const app = require('../server/index');
 
 module.exports = (req, res) => {
   const slug = (req.query && req.query.slug) || '';

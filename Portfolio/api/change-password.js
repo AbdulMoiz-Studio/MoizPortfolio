@@ -1,7 +1,7 @@
 /**
- * Vercel Serverless Function: POST /api/admin/change-password
+ * Vercel Serverless Function: POST /api/change-password
  */
-const app = require('../../server/index');
+const app = require('../server/index');
 
 module.exports = (req, res) => {
   req.url = '/api/admin/change-password';

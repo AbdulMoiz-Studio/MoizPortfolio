@@ -1,7 +1,7 @@
 /**
- * Vercel Serverless Function: /api/admin/inbox
+ * Vercel Serverless Function: /api/inbox
  */
-const app = require('../../server/index');
+const app = require('../server/index');
 
 module.exports = (req, res) => {
   const id = (req.query && req.query.id) || '';

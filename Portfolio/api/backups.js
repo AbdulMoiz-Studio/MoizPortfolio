@@ -1,7 +1,7 @@
 /**
- * Vercel Serverless Function: /api/admin/backups
+ * Vercel Serverless Function: /api/backups
  */
-const app = require('../../server/index');
+const app = require('../server/index');
 
 module.exports = (req, res) => {
   const action = (req.query && req.query.action) || '';

@@ -1,10 +1,14 @@
 /**
- * Vercel Serverless Function: GET /api/content
- * Returns public portfolio data, projects, testimonials, and site configuration
+ * Vercel Serverless Function: GET /api/content (and GET/PUT /api/admin/content)
+ * Returns public portfolio data, or full authenticated admin content if called from CMS
  */
 const app = require('../server/index');
 
 module.exports = (req, res) => {
-  req.url = '/api/content';
+  if (req.method !== 'GET' || req.headers['x-csrf-token'] || req.url.includes('admin')) {
+    req.url = '/api/admin/content';
+  } else {
+    req.url = '/api/content';
+  }
   return app(req, res);
 };
