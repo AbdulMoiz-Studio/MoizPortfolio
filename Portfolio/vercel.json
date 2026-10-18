@@ -4,15 +4,15 @@
   "rewrites": [
     {
       "source": "/api/contact",
-      "destination": "/api/contact.js"
+      "destination": "/api/contact"
     },
     {
       "source": "/api/content",
-      "destination": "/api/content.js"
+      "destination": "/api/content"
     },
     {
       "source": "/api/admin/:match*",
-      "destination": "/api/server.js"
+      "destination": "/api/server"
     },
     {
       "source": "/admin",
