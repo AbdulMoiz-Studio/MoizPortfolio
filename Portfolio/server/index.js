@@ -46,16 +46,17 @@ app.use((req, res, next) => {
     } catch (e) {
       req.url = req.headers['x-matched-path'];
     }
-  } else if (req.url.startsWith('/api/server') || req.url.startsWith('/server')) {
+  } else if (req.url.startsWith('/api/server') || req.url.startsWith('/server') || req.url.includes('[...slug]')) {
     try {
       const parsed = new URL(req.url, 'http://localhost');
       const action = (req.query && (req.query.match || req.query.action || req.query.slug)) || parsed.searchParams.get('match') || parsed.searchParams.get('slug');
-      if (action) {
+      const subPath = Array.isArray(action) ? action.join('/') : String(action || '');
+      if (subPath) {
         parsed.searchParams.delete('match');
         parsed.searchParams.delete('action');
         parsed.searchParams.delete('slug');
         const qs = parsed.searchParams.toString();
-        req.url = '/api/admin/' + action + (qs ? '?' + qs : '');
+        req.url = '/api/admin/' + subPath + (qs ? '?' + qs : '');
       }
     } catch (e) {}
   }

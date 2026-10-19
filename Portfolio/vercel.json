@@ -3,18 +3,6 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/api/contact",
-      "destination": "/api/contact.js"
-    },
-    {
-      "source": "/api/content",
-      "destination": "/api/content.js"
-    },
-    {
-      "source": "/api/admin/:match*",
-      "destination": "/api/server.js?match=:match*"
-    },
-    {
       "source": "/admin",
       "destination": "/admin/index.html"
     },
