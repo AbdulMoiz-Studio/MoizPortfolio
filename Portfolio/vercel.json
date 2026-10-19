@@ -3,75 +3,23 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/api/admin/login",
-      "destination": "/api/login"
+      "source": "/api/contact",
+      "destination": "/api/contact.js"
     },
     {
-      "source": "/api/admin/logout",
-      "destination": "/api/logout"
+      "source": "/api/content",
+      "destination": "/api/content.js"
     },
     {
-      "source": "/api/admin/me",
-      "destination": "/api/me"
-    },
-    {
-      "source": "/api/admin/change-password",
-      "destination": "/api/change-password"
-    },
-    {
-      "source": "/api/admin/content",
-      "destination": "/api/content"
-    },
-    {
-      "source": "/api/admin/projects/:slug",
-      "destination": "/api/projects?slug=:slug"
-    },
-    {
-      "source": "/api/admin/projects",
-      "destination": "/api/projects"
-    },
-    {
-      "source": "/api/admin/media/:action",
-      "destination": "/api/media?action=:action"
-    },
-    {
-      "source": "/api/admin/media",
-      "destination": "/api/media"
-    },
-    {
-      "source": "/api/admin/backups/:action",
-      "destination": "/api/backups?action=:action"
-    },
-    {
-      "source": "/api/admin/backups",
-      "destination": "/api/backups"
-    },
-    {
-      "source": "/api/admin/export",
-      "destination": "/api/export"
-    },
-    {
-      "source": "/api/admin/import",
-      "destination": "/api/import"
-    },
-    {
-      "source": "/api/admin/inbox/export-csv",
-      "destination": "/api/inbox?id=export-csv"
-    },
-    {
-      "source": "/api/admin/inbox/:id",
-      "destination": "/api/inbox?id=:id"
-    },
-    {
-      "source": "/api/admin/inbox",
-      "destination": "/api/inbox"
+      "source": "/api/admin/:match*",
+      "destination": "/api/server.js?match=:match*"
     },
     {
       "source": "/admin",
       "destination": "/admin/index.html"
     },
     {
-      "source": "/admin/:match*",
+      "source": "/admin/((?!.*\\..*).*)",
       "destination": "/admin/index.html"
     },
     {

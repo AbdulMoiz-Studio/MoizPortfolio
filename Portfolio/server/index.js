@@ -25,19 +25,37 @@ app.set('trust proxy', 1);
 
 // Middleware
 app.use(cookieParser());
+
+// Serverless compatibility: if body was already parsed by reverse proxy / serverless runtime
+app.use((req, res, next) => {
+  if (req.body && typeof req.body === 'object') {
+    req._body = true;
+  }
+  next();
+});
+
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 // URL normalization for Vercel Serverless Function rewrites & query params
 app.use((req, res, next) => {
-  if (req.url.startsWith('/api/server') || req.url.startsWith('/server')) {
+  if (req.headers && req.headers['x-matched-path'] && req.headers['x-matched-path'].startsWith('/api/admin/')) {
     try {
       const parsed = new URL(req.url, 'http://localhost');
-      const match = parsed.searchParams.get('match') || parsed.searchParams.get('slug');
-      if (match) {
-        req.url = '/api/admin/' + match;
-      } else if (req.headers['x-matched-path']) {
-        req.url = req.headers['x-matched-path'];
+      req.url = req.headers['x-matched-path'] + (parsed.search || '');
+    } catch (e) {
+      req.url = req.headers['x-matched-path'];
+    }
+  } else if (req.url.startsWith('/api/server') || req.url.startsWith('/server')) {
+    try {
+      const parsed = new URL(req.url, 'http://localhost');
+      const action = (req.query && (req.query.match || req.query.action || req.query.slug)) || parsed.searchParams.get('match') || parsed.searchParams.get('slug');
+      if (action) {
+        parsed.searchParams.delete('match');
+        parsed.searchParams.delete('action');
+        parsed.searchParams.delete('slug');
+        const qs = parsed.searchParams.toString();
+        req.url = '/api/admin/' + action + (qs ? '?' + qs : '');
       }
     } catch (e) {}
   }
@@ -579,8 +597,11 @@ app.use(express.static(STATIC_DIR, {
   extensions: ['html', 'htm']
 }));
 
-// Fallback to index.html with active theme
+// Fallback: JSON 404 for unhandled API routes, themed HTML for regular pages
 app.use((req, res) => {
+  if (req.url && (req.url.startsWith('/api/') || req.path.startsWith('/api/'))) {
+    return res.status(404).json({ error: `API route not found: ${req.method} ${req.url}` });
+  }
   sendThemedHtml(path.join(STATIC_DIR, 'index.html'), res);
 });
 

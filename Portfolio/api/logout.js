@@ -1,9 +1,0 @@
-/**
- * Vercel Serverless Function: POST /api/logout (and /api/admin/logout)
- */
-const app = require('../server/index');
-
-module.exports = (req, res) => {
-  req.url = '/api/admin/logout';
-  return app(req, res);
-};
